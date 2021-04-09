@@ -61,7 +61,7 @@ public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements
         // 启动
         client.start();
 
-        TreeCache treeCache = new TreeCache(client, "/health98Config");
+        TreeCache treeCache = new TreeCache(client, "/agricmisConfig");
         try {
             treeCache.start();
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements
                if (event.getType() == TreeCacheEvent.Type.NODE_UPDATED) {
                    String path = event.getData().getPath();
                    System.out.println("==================================修改路径:" + path);
-                    if(path.startsWith("/health98Config/jdbc")){
+                    if(path.startsWith("/agricmisConfig/jdbc")){
                         // 修改了数据库配置
                         // 刷新spring容器
                         applicationContext.refresh();
@@ -98,10 +98,10 @@ public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements
         client.start();
 
         try {
-            String driver = new String(client.getData().forPath("/health98Config/jdbc.driver"));
-            String url = new String(client.getData().forPath("/health98Config/jdbc.url"));
-            String user = new String(client.getData().forPath("/health98Config/jdbc.username"));
-            String password = new String(client.getData().forPath("/health98Config/jdbc.password"));
+            String driver = new String(client.getData().forPath("/agricmisConfig/jdbc.driver"));
+            String url = new String(client.getData().forPath("/agricmisConfig/jdbc.url"));
+            String user = new String(client.getData().forPath("/agricmisConfig/jdbc.username"));
+            String password = new String(client.getData().forPath("/agricmisConfig/jdbc.password"));
 
             // 设置到spring配置信息中, ${jdbc.driver}
             props.setProperty("jdbc.driver", driver);

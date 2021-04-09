@@ -19,10 +19,10 @@ public class CreateJDBCPath {
         // 启动
         client.start();
 // 操作
-    client.create().creatingParentsIfNeeded().forPath("/health98Config/jdbc.driver","com.mysql.cj.jdbc.Driver".getBytes());
-    client.create().creatingParentsIfNeeded().forPath("/health98Config/jdbc.url","jdbc:mysql://localhost:3306/health98?serverTimezone=GMT-8".getBytes());
-    client.create().creatingParentsIfNeeded().forPath("/health98Config/jdbc.username","root".getBytes());
-    client.create().creatingParentsIfNeeded().forPath("/health98Config/jdbc.password","asd123456".getBytes());
+    client.create().creatingParentsIfNeeded().forPath("/agricmisConfig/jdbc.driver","com.mysql.cj.jdbc.Driver".getBytes());
+    client.create().creatingParentsIfNeeded().forPath("/agricmisConfig/jdbc.url","jdbc:mysql://localhost:3306/agricmis?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8".getBytes());
+    client.create().creatingParentsIfNeeded().forPath("/agricmisConfig/jdbc.username","root".getBytes());
+    client.create().creatingParentsIfNeeded().forPath("/agricmisConfig/jdbc.password","asd123456".getBytes());
         // 关闭
         client.close();
     }

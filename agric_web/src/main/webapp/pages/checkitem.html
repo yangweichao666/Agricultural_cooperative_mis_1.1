@@ -4,9 +4,9 @@
         <!-- 页面meta -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>传智健康</title>
-        <meta name="description" content="传智健康">
-        <meta name="keywords" content="传智健康">
+        <title>农业合作社信息系统</title>
+        <meta name="description" content="农业合作社信息系统">
+        <meta name="keywords" content="农业合作社信息系统">
         <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
         <!-- 引入样式 -->
         <link rel="stylesheet" href="../plugins/elementui/index.css">
@@ -16,31 +16,31 @@
     <body class="hold-transition">
         <div id="app">
             <div class="content-header">
-                <h1>预约管理<small>检查项管理</small></h1>
+                <h1>农产品管理<small>品类项管理</small></h1>
                 <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>预约管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>检查项管理</el-breadcrumb-item>
+                    <el-breadcrumb-item>农产品管理</el-breadcrumb-item>
+                    <el-breadcrumb-item>品类项管理</el-breadcrumb-item>
                 </el-breadcrumb>
             </div>
             <div class="app-container">
                 <div class="box">
                     <div class="filter-container">
-                        <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
+                        <el-input placeholder="品类编码/品类名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
                         <el-button @click="findPage()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                         <el-table-column type="index" align="center" label="序号"></el-table-column>
-                        <el-table-column prop="code" label="项目编码" align="center"></el-table-column>
-                        <el-table-column prop="name" label="项目名称" align="center"></el-table-column>
-                        <el-table-column label="适用性别" align="center">
+                        <el-table-column prop="code" label="品类编码" align="center"></el-table-column>
+                        <el-table-column prop="name" label="品类名称" align="center"></el-table-column>
+                        <el-table-column label="是否加工" align="center">
                             <template slot-scope="scope">
-                                <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
+                                <span>{{ scope.row.faf == '0' ? '不详' : scope.row.faf == '1' ? '是' : '否'}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="age" label="适用年龄" align="center"></el-table-column>
-                        <el-table-column prop="remark" label="项目说明" align="center"></el-table-column>
+                        <el-table-column prop="age" label="保质期" align="center"></el-table-column>
+                        <el-table-column prop="remark" label="品类说明" align="center"></el-table-column>
                         <el-table-column label="操作" align="center">
                             <template slot-scope="scope">
                                 <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -84,16 +84,16 @@
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="性别">
-                                            <el-select v-model="formData.sex">
-                                                <el-option label="不限" value="0"></el-option>
-                                                <el-option label="男" value="1"></el-option>
-                                                <el-option label="女" value="2"></el-option>
+                                        <el-form-item label="是否加工">
+                                            <el-select v-model="formData.faf">
+                                                <el-option label="不详" value="0"></el-option>
+                                                <el-option label="是" value="1"></el-option>
+                                                <el-option label="否" value="2"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="适用年龄">
+                                        <el-form-item label="保质期">
                                             <el-input v-model="formData.age"/>
                                         </el-form-item>
                                     </el-col>
@@ -153,16 +153,16 @@
                                 </el-row>
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="性别">
-                                            <el-select v-model="formData.sex">
-                                                <el-option label="不限" value="0"></el-option>
-                                                <el-option label="男" value="1"></el-option>
-                                                <el-option label="女" value="2"></el-option>
+                                        <el-form-item label="是否加工">
+                                            <el-select v-model="formData.faf">
+                                                <el-option label="不详" value="0"></el-option>
+                                                <el-option label="是" value="1"></el-option>
+                                                <el-option label="否" value="2"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="适用年龄">
+                                        <el-form-item label="保质期">
                                             <el-input v-model="formData.age"/>
                                         </el-form-item>
                                     </el-col>
@@ -244,7 +244,7 @@
                     this.$refs["dataEditForm"].validate((valid) => {
                         if (valid) {
                             // alert('校验通过');
-                            axios.post("/checkitem/update",this.formData).then( (response)=>{
+                            axios.post("/checkitem/update.do",this.formData).then( (response)=>{
 
                                 if (response.data.flag){
                                     //成功
@@ -280,7 +280,7 @@
                     this.$refs["dataAddForm"].validate((valid) => {
                         if (valid) {
                             // alert('校验通过');
-                            axios.post("/checkitem/add",this.formData).then( (response)=>{
+                            axios.post("/checkitem/add.do",this.formData).then( (response)=>{
                                 //隐藏提交表单窗口
                                 this.dialogFormVisible=false;
                                 if (response.data.flag){
@@ -290,7 +290,9 @@
                                     	message:response.data.message,
                                     	showClose:true
                                     })
+
                                     this.dialogFormVisible=false;
+                                    this.findPage();
 
                                 }
                                 else {
@@ -350,7 +352,7 @@
                 },
                 //通过id查询检查项信息
                 findById(id){
-                    axios.post("/checkitem/findById?id="+id).then((res)=>{
+                    axios.post("/checkitem/findById.do?id="+id).then((res)=>{
                         // res.data=>result
                         if (res.data.flag){
                             //成功查询到的返回记录

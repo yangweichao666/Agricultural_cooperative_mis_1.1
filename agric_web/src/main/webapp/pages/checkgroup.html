@@ -4,9 +4,9 @@
         <!-- 页面meta -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>传智健康</title>
-        <meta name="description" content="传智健康">
-        <meta name="keywords" content="传智健康">
+        <title>农业合作社信息系统</title>
+        <meta name="description" content="农业合作社信息系统">
+        <meta name="keywords" content="农业合作社信息系统">
         <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
         <!-- 引入样式 -->
         <link rel="stylesheet" href="../plugins/elementui/index.css">
@@ -62,9 +62,9 @@
                         <el-table-column type="index" align="center" label="序号"></el-table-column>
                         <el-table-column prop="code" label="检查组编码" align="center"></el-table-column>
                         <el-table-column prop="name" label="检查组名称" align="center"></el-table-column>
-                        <el-table-column label="适用性别" align="center">
+                        <el-table-column label="是否加工" align="center">
                             <template slot-scope="scope">
-                                <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
+                                <span>{{ scope.row.sex == '0' ? '不详' : scope.row.sex == '1' ? '是' : '否'}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column prop="helpCode" label="助记码" align="center"></el-table-column>
@@ -107,11 +107,11 @@
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="适用性别">
+                                                    <el-form-item label="是否加工">
                                                         <el-select v-model="formData.sex">
-                                                            <el-option label="不限" value="0"></el-option>
-                                                            <el-option label="男" value="1"></el-option>
-                                                            <el-option label="女" value="2"></el-option>
+                                                            <el-option label="不详" value="0"></el-option>
+                                                            <el-option label="是" value="1"></el-option>
+                                                            <el-option label="否" value="2"></el-option>
                                                         </el-select>
                                                     </el-form-item>
                                                 </el-col>
@@ -191,11 +191,11 @@
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="适用性别">
+                                                    <el-form-item label="是否加工">
                                                         <el-select v-model="formData.sex">
-                                                            <el-option label="不限" value="0"></el-option>
-                                                            <el-option label="男" value="1"></el-option>
-                                                            <el-option label="女" value="2"></el-option>
+                                                            <el-option label="不详" value="0"></el-option>
+                                                            <el-option label="是" value="1"></el-option>
+                                                            <el-option label="否" value="2"></el-option>
                                                         </el-select>
                                                     </el-form-item>
                                                 </el-col>
@@ -293,6 +293,7 @@
                                 showClose:true
                             })
                             this.dialogFormVisible4Edit=false;
+                            this.findPage();
 
                         }else{
                             //失败
@@ -317,6 +318,7 @@
                             	showClose:true
                             })
                             this.dialogFormVisible=false;
+                            this.findPage();
 
                         }else{
                             //失败

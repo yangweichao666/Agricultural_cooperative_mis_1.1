@@ -5,16 +5,16 @@
 <mapper namespace="com.ywc.agric.dao.CheckItemDao">
 
     <select id="findAll" resultType="com.ywc.agric.pojo.CheckItem">
-        select * from t_checkitem
+        select * from t_varietyitem
     </select>
 
     <insert id="add" parameterType="CheckItem">
-        insert  into t_checkItem(code,name,sex,age,price,type,remark,attention)
-         values(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+        insert  into t_varietyitem(code,name,faf,age,price,type,remark,attention)
+         values(#{code},#{name},#{faf},#{age},#{price},#{type},#{remark},#{attention})
     </insert>
     <!--是分页查询-->
     <select id="findByCondition" resultType="com.ywc.agric.pojo.CheckItem" parameterType="String">
-        select * from t_checkItem
+        select * from t_varietyitem
         <if test="value !=null and value.length > 0">
             where code like #{value} or name like #{value}
         </if>
@@ -23,21 +23,21 @@
     </select>
     <!--判断检查项id是否被检查组使用-->
     <select id="findCountByCheckItem" resultType="java.lang.Integer" parameterType="int">
-        select count(*) from t_checkgroup_checkitem where checkitem_id=#{id}
+        select count(*) from t_varietygroup_varietyitem where varietyitem_id=#{id}
     </select>
     <!--删除检查项-->
     <delete id="deleteById" parameterType="int">
-        delete from t_checkitem where id=#{id}
+        delete from t_varietyitem where id=#{id}
     </delete>
     <select id="findById" parameterType="int" resultType="CheckItem">
-        select * from t_checkItem where id=#{id}
+        select * from t_varietyitem where id=#{id}
     </select>
     <!--编辑-->
     <update id="update" parameterType="CheckItem">
-        update t_checkItem set
+        update t_varietyitem set
        code=#{code},
     name=#{name},
-     sex=#{sex},
+     faf=#{faf},
      age=#{age},
     price=#{price},
    type=#{type},

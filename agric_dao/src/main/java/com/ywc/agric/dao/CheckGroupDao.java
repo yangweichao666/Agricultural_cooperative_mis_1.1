@@ -18,11 +18,11 @@ public interface CheckGroupDao {
 
     /**
      * 添加检查组与检查项的关系
-     * @param checkgroup_id 注意要取别名，类型相同
-     * @param checkitem_id
+     * @param varietygroup_id 注意要取别名，类型相同
+     * @param varietyitem_id
      */
 //    void addCheckGroupCheckItem(@Param("checkGroupId") Integer checkGroupId, @Param("checkitemId") Integer checkitemId);
-void addCheckGroupCheckItem(@Param("checkgroup_id")Integer checkgroup_id, @Param("checkitem_id")Integer checkitem_id);
+void addCheckGroupCheckItem(@Param("varietygroup_id")Integer varietygroup_id, @Param("varietyitem_id")Integer varietyitem_id);
 
     /**
      * 分页查询

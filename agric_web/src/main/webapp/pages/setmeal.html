@@ -4,9 +4,9 @@
         <!-- 页面meta -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>传智健康</title>
-        <meta name="description" content="传智健康">
-        <meta name="keywords" content="传智健康">
+        <title>农业合作社信息系统</title>
+        <meta name="description" content="农业合作社信息系统">
+        <meta name="keywords" content="农业合作社信息系统">
         <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
         <!-- 引入样式 -->
         <link rel="stylesheet" href="../plugins/elementui/index.css">
@@ -85,12 +85,12 @@
                         <el-table-column type="index" align="left" width="60" label="序号"></el-table-column>
                         <el-table-column prop="code" label="套餐编码" width="80" align="left"></el-table-column>
                         <el-table-column prop="name" label="套餐名称" align="left"></el-table-column>
-                        <el-table-column label="适用性别" width="80" align="left">
+                        <el-table-column label="是否加工" width="80" align="left">
                             <template slot-scope="scope">
-                                <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
+                                <span>{{ scope.row.sex == '0' ? '不详' : scope.row.sex == '1' ? '是' : '否'}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="age" width="100" label="适用年龄" align="left"></el-table-column>
+                        <el-table-column prop="age" width="100" label="保质期" align="left"></el-table-column>
                         <el-table-column prop="helpCode" width="80" label="助记码" align="left"></el-table-column>
                         <el-table-column prop="remark" label="说明" align="left"></el-table-column>
                         <el-table-column label="操作" width="160" align="left">
@@ -131,11 +131,11 @@
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="适用性别">
+                                                    <el-form-item label="是否加工">
                                                         <el-select v-model="formData.sex">
-                                                            <el-option label="不限" value="0"></el-option>
-                                                            <el-option label="男" value="1"></el-option>
-                                                            <el-option label="女" value="2"></el-option>
+                                                            <el-option label="不详" value="0"></el-option>
+                                                            <el-option label="是" value="1"></el-option>
+                                                            <el-option label="否" value="2"></el-option>
                                                         </el-select>
                                                     </el-form-item>
                                                 </el-col>
@@ -152,7 +152,7 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="适用年龄">
+                                                    <el-form-item label="保质期">
                                                         <el-input v-model="formData.age"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -243,11 +243,11 @@
                                             </el-row>
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="适用性别">
+                                                    <el-form-item label="是否加工">
                                                         <el-select v-model="formData.sex">
-                                                            <el-option label="不限" value="0"></el-option>
-                                                            <el-option label="男" value="1"></el-option>
-                                                            <el-option label="女" value="2"></el-option>
+                                                            <el-option label="不详" value="0"></el-option>
+                                                            <el-option label="是" value="1"></el-option>
+                                                            <el-option label="否" value="2"></el-option>
                                                         </el-select>
                                                     </el-form-item>
                                                 </el-col>
@@ -264,7 +264,7 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="适用年龄">
+                                                    <el-form-item label="保质期">
                                                         <el-input v-model="formData.age"/>
                                                     </el-form-item>
                                                 </el-col>

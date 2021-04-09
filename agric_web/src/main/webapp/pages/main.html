@@ -37,7 +37,7 @@
                         <el-dropdown class="avatar-container right-menu-item" trigger="click">
                             <div class="avatar-wrapper">
                                 <img src="../img/user2-160x160.jpg" class="user-avatar">
-                                Jay.Liu
+                                {{loginUsername}}
                             </div>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item divided>
@@ -176,8 +176,30 @@
                         }
                     ]
                 }
-            ]
+            ],
+
+            loginUsername:"",
+            imageUrl:""
+        },
+        created() {
+           this.findUser();
+        },
+        methods: {
+            findUser(){
+                axios.post("/user/findUser.do").then(res=>{
+                    this.$message({
+                                   message: res.data.message,
+                                   type: res.data.flag?"success":"error"
+                                  });
+                    if (res.data.flag){
+                        this.loginUsername=res.data.data.name;
+                        this.imageUrl=res.data.data.img
+                    }
+                })
+            }
+
         }
+
     });
     $(function() {
             var wd = 200;

@@ -5,11 +5,11 @@
 <mapper namespace="com.ywc.agric.dao.SetmealDao">
 
     <insert id="add" parameterType="com.ywc.agric.pojo.Setmeal" >
-   insert into t_setmeal (name,code,helpCode, sex,age,price,remark,attention,img) values(
+   insert into t_setmeal (name,code,helpCode, faf,age,price,remark,attention,img) values(
 #{name},
 #{code},
 #{helpCode},
-#{sex},
+#{faf},
 #{age},
 #{price},
 #{remark},
@@ -22,7 +22,7 @@
 
     </insert>
     <insert id="addSetmealCheeckGroup" parameterType="integer">
-        insert  into t_setmeal_checkgroup(setmeal_id,checkgroup_id) values(#{setmeal_id},#{checkgroup_id})
+        insert  into t_varietygroup_varietyitem(setmeal_id,varietyitem_id) values(#{setmeal_id},#{varietyitem_id})
     </insert>
     <!--分页查询-->
     <select id="findPage" parameterType="String" resultType="Setmeal">
@@ -49,30 +49,30 @@
         <result property="name" column="name" />
         <result property="code" column="code" />
         <result property="helpCode" column="helpCode" />
-        <result property="sex" column="sex" />
+        <result property="faf" column="faf" />
         <result property="age" column="age" />
         <result property="price" column="price" />
         <result property="remark" column="remark" />
         <result property="attention" column="attention" />
         <result property="img" column="img" />
         <collection property="checkGroups" ofType="CheckGroup">
-            <id property="id" column="checkgroup_id"/>
+            <id property="id" column="varietyitem_id"/>
             <result property="name" column="checkgroup_name"/>
             <result property="remark" column="checkgroup_remark"/>
             <collection property="checkItems" ofType="CheckItem">
-                <id property="id" column="checkitem_id"/>
+                <id property="id" column="varietyitem_id"/>
                 <result property="name" column="checkitem_name"/>
             </collection>
         </collection>
     </resultMap>
     <select id="findById" resultMap="setmealDetailMap" parameterType="int">
-        SELECT  s.*, sg.checkgroup_id, cg.name checkgroup_name, cg.remark as checkgroup_remark,
-        cc.checkitem_id, ci.name checkitem_name
-        FROM  t_setmeal s, t_setmeal_checkgroup sg,
-        t_checkgroup cg, t_checkgroup_checkitem cc,
-        t_checkitem ci
-        WHERE s.id=sg.setmeal_id AND sg.checkgroup_id=cg.id AND
-        cg.id=cc.checkgroup_id AND cc.checkitem_id=ci.id AND s.id=#{id}
+        SELECT  s.*, sg.varietyitem_id, cg.name checkgroup_name, cg.remark as checkgroup_remark,
+        cc.varietyitem_id, ci.name checkitem_name
+        FROM  t_setmeal s, t_varietygroup_varietyitem sg,
+        t_varietygroup cg, t_varietygroup_varietyitem cc,
+        t_varietyitem ci
+        WHERE s.id=sg.setmeal_id AND sg.varietyitem_id=cg.id AND
+        cg.id=cc.varietyitem_id AND cc.varietyitem_id=ci.id AND s.id=#{id}
 
     </select>
 

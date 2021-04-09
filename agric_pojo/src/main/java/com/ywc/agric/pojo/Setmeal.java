@@ -11,8 +11,8 @@ public class Setmeal implements Serializable {
     private String name;
     private String code;
     private String helpCode;
-    private String sex;//套餐适用性别：0不限 1男 2女
-    private String age;//套餐适用年龄
+    private String faf;//套餐适用类别
+    private String age;//套餐保质期
     private Float price;//套餐价格
     private String remark;
     private String attention;
@@ -57,12 +57,12 @@ public class Setmeal implements Serializable {
         this.helpCode = helpCode;
     }
 
-    public String getSex() {
-        return sex;
+    public String getFaf() {
+        return faf;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setFaf(String faf) {
+        this.faf = faf;
     }
 
     public String getAge() {

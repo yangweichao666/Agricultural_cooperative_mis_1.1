@@ -11,7 +11,7 @@ public class CheckGroup implements Serializable {
     private String code;//编码
     private String name;//名称
     private String helpCode;//助记
-    private String sex;//适用性别
+    private String faf;//是否加工
     private String remark;//介绍
     private String attention;//注意事项
     private List<CheckItem> checkItems;//一个检查组合包含多个检查项
@@ -56,12 +56,12 @@ public class CheckGroup implements Serializable {
         this.helpCode = helpCode;
     }
 
-    public String getSex() {
-        return sex;
+    public String getFaf() {
+        return faf;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setFaf(String faf) {
+        this.faf = faf;
     }
 
     public String getRemark() {

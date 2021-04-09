@@ -8,6 +8,7 @@ import com.ywc.agric.pojo.CheckItem;
 import com.ywc.agric.service.CheckItemService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @Author YWC
  * @Date 2021/3/18 11:12
  */
+@Component
 @RestController
 @RequestMapping("/checkitem")
 public class CheckItemController {
@@ -35,7 +37,7 @@ public class CheckItemController {
      * @return
      */
     //添加检查项添加的权限控制
-    @PreAuthorize("CHECKITEM_ADD")
+//    @PreAuthorize("ITEM_ADD")
     @PostMapping("/add")
     public Result add(@RequestBody CheckItem checkItem ){
         try {

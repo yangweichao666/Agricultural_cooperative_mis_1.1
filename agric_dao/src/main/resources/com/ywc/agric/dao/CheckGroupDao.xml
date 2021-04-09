@@ -6,11 +6,11 @@
 
 <!--添加组-->
     <insert id="addCheckGroup" parameterType="com.ywc.agric.pojo.CheckGroup">
-        insert into t_checkgroup(code,name,helpCode,sex,remark,attention) values(
+        insert into t_varietygroup(code,name,helpCode,faf,remark,attention) values(
      #{code},
      #{name},
      #{helpCode},
-     #{sex},
+     #{faf},
      #{remark},
      #{attention}
         )
@@ -20,48 +20,48 @@
     </insert>
     <!--添加关系-->
     <insert id="addCheckGroupCheckItem" parameterType="int">
-        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id)  values(#{checkgroup_id},#{checkitem_id})
+        insert into t_varietygroup_varietyitem(varietygroup_id,varietyitem_id)  values(#{varietygroup_id},#{varietyitem_id})
     </insert>
 
 
     <!--    <insert id="addCheckGroupCheckItem" parameterType="int">-->
-    <!--        insert into t_checkgroup_checkitem (checkgroup_id, checkitem_id)-->
+    <!--        insert into t_varietygroup_checkitem (varietyitem_id, varietyitem_id)-->
     <!--        values (#{checkGroupId}, #{checkitemId})-->
     <!--    </insert>-->
 
     <!--分页查询-->
     <select id="findConditon" parameterType="String" resultType="com.ywc.agric.pojo.CheckGroup">
-        select * from t_checkgroup
+        select * from t_varietygroup
         <if test="value != null and value.length > 0">
             where code like #{value} or name like #{value} or helpCode like #{value}
         </if>
     </select>
     <!--编辑回显-->
     <select id="findByid" parameterType="int" resultType="com.ywc.agric.pojo.CheckGroup">
-        select * from t_checkgroup where id=#{id}
+        select * from t_varietygroup where id=#{id}
     </select>
     <select id="findCheckGroupAndCheckItemIds" parameterType="integer" resultType="integer">
-        select checkitem_id from  t_checkgroup_checkitem where checkgroup_id=#{id}
+        select varietyitem_id from  t_varietygroup_varietyitem where varietyitem_id=#{id}
     </select>
 <!--    编辑-->
 
     <update id="update" parameterType="com.ywc.agric.pojo.CheckGroup">
-        update t_checkgroup set
+        update t_varietygroup set
      code=#{code},
      name=#{name},
      helpCode=#{helpCode},
-     sex=#{sex},
+     faf=#{faf},
      remark=#{remark},
      attention=#{attention}
      where id=#{id}
     </update>
     <!--删除组与项关系-->
     <delete id="DeleteCheckGroupCheckItems" parameterType="integer">
-        delete from t_checkgroup_checkitem where checkgroup_id=#{id}
+        delete from t_varietygroup_varietyitem where varietyitem_id=#{id}
     </delete>
     <!--为啥不用*  ?    原因方式后来添加列出问题-->
     <select id="findAll" resultType="CheckGroup">
-        select id,code,name,helpCode,sex,remark,attention from t_checkgroup
+        select id,code,name,helpCode,faf,remark,attention from t_varietygroup
     </select>
 
 

@@ -18,9 +18,9 @@ public interface SetmealDao {
     /**
      * 添加关系
      * @param setmeal_id
-     * @param checkgroup_id
+     * @param varietygroup_id
      */
-    void addSetmealCheeckGroup(@Param("setmeal_id") Integer setmeal_id, @Param("checkgroup_id") Integer checkgroup_id);
+    void addSetmealCheeckGroup(@Param("setmeal_id") Integer setmeal_id, @Param("varietygroup_id") Integer varietygroup_id);
 
     /**
      * 分页查询

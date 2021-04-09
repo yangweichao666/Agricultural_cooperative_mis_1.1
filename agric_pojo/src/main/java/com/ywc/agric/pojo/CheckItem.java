@@ -9,8 +9,8 @@ public class CheckItem implements Serializable {
     private Integer id;//主键
     private String code;//项目编码
     private String name;//项目名称
-    private String sex;//适用性别
-    private String age;//适用年龄范围例如20-50
+    private String faf;//是否是
+    private String age;//保质期范围例如20-50
     private Float price;//价格
     private String type;//检查项类型，分为检查和检验两种类型
     private String remark;//项目说明
@@ -40,12 +40,12 @@ public class CheckItem implements Serializable {
         this.name = name;
     }
 
-    public String getSex() {
-        return sex;
+    public String getFaf() {
+        return faf;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setFaf(String faf) {
+        this.faf = faf;
     }
 
     public String getAge() {
