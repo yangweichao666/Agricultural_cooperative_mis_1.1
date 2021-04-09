@@ -1,0 +1,7 @@
+# Project exclude paths
+/agric_common/target/
+/agric_dao/target/
+/agric_interface/target/
+/agric_pojo/target/
+/agric_service/target/
+/agric_web/target/

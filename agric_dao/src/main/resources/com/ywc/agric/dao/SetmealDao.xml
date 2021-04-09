@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!--引入的约束-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywc.agric.dao.SetmealDao">
+
+    <insert id="add" parameterType="com.ywc.agric.pojo.Setmeal" >
+   insert into t_setmeal (name,code,helpCode, sex,age,price,remark,attention,img) values(
+#{name},
+#{code},
+#{helpCode},
+#{sex},
+#{age},
+#{price},
+#{remark},
+#{attention},
+#{img}
+   )
+   <selectKey resultType="int" keyProperty="id" order="AFTER">
+       select last_insert_id();
+   </selectKey>
+
+    </insert>
+    <insert id="addSetmealCheeckGroup" parameterType="integer">
+        insert  into t_setmeal_checkgroup(setmeal_id,checkgroup_id) values(#{setmeal_id},#{checkgroup_id})
+    </insert>
+    <!--分页查询-->
+    <select id="findPage" parameterType="String" resultType="Setmeal">
+        select * from t_setmeal
+        <if test="value != null and value.length > 0">
+            where code  like #{value} or helpCode like  #{value}
+        </if>
+    </select>
+    <select id="findImgs" resultType="java.lang.String">
+        select img from t_setmeal
+    </select>
+
+    <select id="findAllPage" resultType="com.ywc.agric.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
+
+    <!--   自定义映射规则
+1对多关系配置
+套餐下有检查组
+检查组下有检查项
+-->
+    <resultMap id="setmealDetailMap" type="Setmeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name" />
+        <result property="code" column="code" />
+        <result property="helpCode" column="helpCode" />
+        <result property="sex" column="sex" />
+        <result property="age" column="age" />
+        <result property="price" column="price" />
+        <result property="remark" column="remark" />
+        <result property="attention" column="attention" />
+        <result property="img" column="img" />
+        <collection property="checkGroups" ofType="CheckGroup">
+            <id property="id" column="checkgroup_id"/>
+            <result property="name" column="checkgroup_name"/>
+            <result property="remark" column="checkgroup_remark"/>
+            <collection property="checkItems" ofType="CheckItem">
+                <id property="id" column="checkitem_id"/>
+                <result property="name" column="checkitem_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="findById" resultMap="setmealDetailMap" parameterType="int">
+        SELECT  s.*, sg.checkgroup_id, cg.name checkgroup_name, cg.remark as checkgroup_remark,
+        cc.checkitem_id, ci.name checkitem_name
+        FROM  t_setmeal s, t_setmeal_checkgroup sg,
+        t_checkgroup cg, t_checkgroup_checkitem cc,
+        t_checkitem ci
+        WHERE s.id=sg.setmeal_id AND sg.checkgroup_id=cg.id AND
+        cg.id=cc.checkgroup_id AND cc.checkitem_id=ci.id AND s.id=#{id}
+
+    </select>
+
+</mapper>

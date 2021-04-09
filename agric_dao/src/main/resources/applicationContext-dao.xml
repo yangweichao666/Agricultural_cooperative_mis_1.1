@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--注释掉上面的导入使用 zookeeper控制中心配置数据库   添加--><!--配置中心的工具-->
+    <bean class="com.ywc.agric.util.SettingCenterUtils"></bean>
+    <!--spring整合Mybatis  数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="driverClassName" value="${jdbc.driver}"></property>
+<!--        <property name="username" value="root"></property>-->
+<!--        <property name="password" value="asd123456"></property>-->
+<!--        <property name="url" value="jdbc:mysql://localhost:3306/health98?serverTimezone=GMT-8"></property>-->
+<!--        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>-->
+    </bean>
+
+    <!--spring和mybatis整合的工厂bean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+
+<!--            引入mybatis的配置文件     -->
+        <property name="configLocation" value="classpath:sqlMapConfig.xml" />
+        <!--使用别名-->
+        <property name="typeAliasesPackage" value="com.ywc.agric.pojo"></property>
+    </bean>
+
+    <!--批量扫描接口生成代理对象-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定接口所在的包-->
+        <property name="basePackage" value="com.ywc.agric.dao" ></property>
+    </bean>
+
+</beans>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!--引入的约束-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywc.agric.dao.OrderSettingDao">
+    <insert id="add" parameterType="OrderSetting">
+          insert into t_ordersetting (orderDate,number,reservations)
+        values(#{orderDate},#{number}, #{reservations})
+    </insert>
+    <update id="updateNumber" parameterType="OrderSetting">
+    update t_ordersetting set number=#{number} where orderDate = #{orderDate}
+
+    </update>
+
+
+    <!--查询时需要加入date()    where orderDate=date(#{orderDate})-->
+    <select id="findOrderData" parameterType="Date" resultType="com.ywc.agric.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate = #{orderDate}
+    </select>
+
+<!--    <select id="getOrderSettingMoth" parameterType="String" resultType="Map">-->
+<!--        select cast( DATE_FORMAT(ORDERDATE,'%d') as SIGNED) date,number,reservations-->
+<!--        from t_ordersetting-->
+<!--        where  orderDate LIKE #{dateMoth}-->
+<!--    </select>-->
+    <select id="getOrderSettingMoth" parameterType="String" resultType="OrderSetting">
+        select *
+        from t_ordersetting
+        where  orderDate LIKE #{dateMoth}
+    </select>
+    <!--更新已预约人数  +1 有一定容错-->
+    <update id="updateReservations" parameterType="OrderSetting">
+        update t_ordersetting set reservations= #{reservations}+1 where orderDate=#{orderDate}
+        and number > reservations
+    </update>
+</mapper>
