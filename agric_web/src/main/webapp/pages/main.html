@@ -36,7 +36,8 @@
                         <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>帮助</span>
                         <el-dropdown class="avatar-container right-menu-item" trigger="click">
                             <div class="avatar-wrapper">
-                                <img src="../img/user2-160x160.jpg" class="user-avatar">
+                                <img v-if="loginUserImag" :src="loginUserImag" class="user-avatar">
+
                                 {{loginUsername}}
                             </div>
                             <el-dropdown-menu slot="dropdown">
@@ -44,8 +45,7 @@
                                     <span style="display:block;">修改密码</span>
                                 </el-dropdown-item>
                                 <el-dropdown-item divided>
-                                        <span style="display:block;">退出</span>
-                                    </el-dropdown-item>
+                                    <span style="display:block;"><a href="/logout.do">退出</a></span>                                    </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -78,6 +78,7 @@
 <script src="../js/vue.js"></script>
 <script src="../plugins/elementui/index.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
 <script>
     new Vue({
         el: '#app',
@@ -177,28 +178,25 @@
                     ]
                 }
             ],
-
+            loginUserImag:"",
             loginUsername:"",
-            imageUrl:""
-        },
-        created() {
-           this.findUser();
-        },
-        methods: {
-            findUser(){
-                axios.post("/user/findUser.do").then(res=>{
-                    this.$message({
-                                   message: res.data.message,
-                                   type: res.data.flag?"success":"error"
-                                  });
-                    if (res.data.flag){
-                        this.loginUsername=res.data.data.name;
-                        this.imageUrl=res.data.data.img
-                    }
-                })
-            }
 
+        },
+        mounted(){
+            // 获取登陆用户名
+            axios.post('/user/findUser.do').then(res => {
+                if(res.data.flag){
+                    this.loginUsername = res.data.data.username;
+                    this.loginUserImag=res.data.data.userimg;
+                }else{
+                    this.$message.error(res.data.message);
+                }
+            })
         }
+
+
+
+
 
     });
     $(function() {

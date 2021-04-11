@@ -5,7 +5,7 @@
 <mapper namespace="com.ywc.agric.dao.UserDao">
 
     <select id="findByUsername" parameterType="String" resultMap="userRolePermissionMap">
-        select u.id,u.username,u.password,
+        select u.id,u.username,u.password,u.img,
                ur.role_id, r.keyword role_keyword, r.name role_name,
                rp.permission_id, p.keyword permission_keyword, p.name permission_name
         From
@@ -20,6 +20,7 @@
         <id property="id" column="id"></id>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
+        <result property="img" column="img"/>
         <collection property="roles" ofType="Role">
             <id property="id" column="role_id"/>
             <result property="keyword" column="role_keyword"/>
