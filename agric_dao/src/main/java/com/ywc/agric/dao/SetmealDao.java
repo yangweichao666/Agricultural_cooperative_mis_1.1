@@ -48,4 +48,11 @@ public interface SetmealDao {
      */
     Setmeal findById(Integer id) ;
 
+    /**
+     * 修改套餐
+     * @param setmeal
+     */
+    void update(Setmeal setmeal);
+
+    void deleteSetmealAnnGroup(Integer id);
 }

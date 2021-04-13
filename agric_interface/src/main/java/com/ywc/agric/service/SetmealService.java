@@ -45,4 +45,11 @@ public interface SetmealService {
      * @return
      */
     Setmeal findById(Integer id);
+
+    /**
+     * 编辑套餐
+     * @param setmeal
+     * @param checkgroupIds
+     */
+    void update(Setmeal setmeal, Integer[] checkgroupIds);
 }

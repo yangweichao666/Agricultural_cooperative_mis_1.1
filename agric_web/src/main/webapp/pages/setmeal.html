@@ -190,7 +190,7 @@
                                             </el-row>
                                         </el-form>
                                     </el-tab-pane>
-                                    <el-tab-pane label="检查组信息" name="second">
+                                    <el-tab-pane label="品类组信息" name="second">
 										<div class="checkScrol">
 											<table class="datatable">
 												<thead>
@@ -302,7 +302,7 @@
                                             </el-row>
                                         </el-form>
                                     </el-tab-pane>
-                                    <el-tab-pane label="检查组信息" name="second">
+                                    <el-tab-pane label="品类组信息" name="second">
                                         <div class="checkScrol">
                                             <table class="datatable">
                                                 <thead>
@@ -354,8 +354,8 @@
                 },
                 dataList: [],//列表数据
                 formData: {},//表单数据
-                tableData:[],//添加表单窗口中检查组列表数据
-                checkgroupIds:[],//添加表单窗口中检查组复选框对应id
+                tableData:[],//添加表单窗口中品类组列表数据
+                checkgroupIds:[],//添加表单窗口中品类组复选框对应id
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
                 dialogFormVisible4Edit: false // 控制编辑窗口显示/隐藏
             },
@@ -416,7 +416,7 @@
                 resetForm() {
                     //清空表单
                     this.formData={};
-                    //清空选中检查组
+                    //清空选中品类组
                     this.checkgroupIds=[];
                     //默认选中套餐信息标签页
                     this.activeName="first"
@@ -430,7 +430,7 @@
                     this.resetForm();
                     // 弹出添加窗口
                     this.dialogFormVisible=true;
-                    // 获取检查组列表数据
+                    // 获取品类组列表数据
                     axios.post("/checkgroup/findAll.do").then(res=>{
                         if (res.data.flag){
                             this.tableData=res.data.data;
@@ -452,7 +452,7 @@
                     this.resetForm();
                     this.dialogFormVisible4Edit=true;
                     var id = row.id;
-                    axios.get('/setmeal/findById.do?id=' + id).then(res => {
+                    axios.post('/setmeal/findById.do?id=' + id).then(res => {
                         if(res.data.flag){
                             // 表单数据
                             this.formData = res.data.data.setmeal;
@@ -460,18 +460,26 @@
                             var domain = res.data.data.domain;
                             // 图片的完整路径
                             this.imageUrl = domain + this.formData.img;
-                            // 获取检查组列表数据
-                            axios.get("/checkgroup/findAll.do").then(res1 => {
+                            // 获取品类组列表数据
+                            axios.post("/checkgroup/findAll.do").then(res1 => {
                                 if(res1.data.flag){
                                     this.tableData = res1.data.data;
-                                    // 选中的检查组id
-                                    axios.get('/setmeal/findCheckgroupIdsBySetmealId.do?id=' + id).then(res2 => {
-                                        if(res2.data.flag){
-                                            this.checkgroupIds = res2.data.data;
+                                    var cg=res.data.data.setmeal.checkGroups
+                                    // 选中的品类组id(使用的js)
+                                    // alert(cg[0].id)
+                                        if(cg!=[]){
+                                            for (var i=0;i<cg.length;i++) {
+                                                // alert(cg[0].id);
+                                                this.checkgroupIds.push(cg[i].id)
+                                            }
+                                            // cg.forEach(function(value,index,array){
+                                            //     this.checkgroupIds.push(value.id)
+                                            // })
+
                                         }else{
-                                            this.$message.error(res2.data.message);
+                                            this.$message.error("查找当前套餐品类组出错组");
                                         }
-                                    })
+
                                 }else{
                                     this.$message.error(res1.data.message);
                                 }

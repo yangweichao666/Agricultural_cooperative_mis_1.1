@@ -24,6 +24,8 @@
     <insert id="addSetmealCheeckGroup" parameterType="integer">
         insert  into t_setmeal_varietygroup(setmeal_id,varietygroup_id) values(#{setmeal_id},#{varietygroup_id})
     </insert>
+
+
     <!--分页查询-->
     <select id="findPage" parameterType="String" resultType="Setmeal">
         select * from t_setmeal
@@ -56,7 +58,7 @@
         <result property="attention" column="attention" />
         <result property="img" column="img" />
         <collection property="checkGroups" ofType="CheckGroup">
-            <id property="id" column="varietyitem_id"/>
+            <id property="id" column="varietygroup_id"/>
             <result property="name" column="varietygroup_name"/>
             <result property="remark" column="varietygroup_remark"/>
             <collection property="checkItems" ofType="CheckItem">
@@ -75,5 +77,21 @@
         cg.id=cc.varietygroup_id AND cc.varietyitem_id=ci.id AND s.id=#{id}
 
     </select>
+ <!--修改套餐-->
+    <update id="update" parameterType="com.ywc.agric.pojo.Setmeal">
+        update t_setmeal set name=#{name},
+code=#{code},
+helpCode=#{helpCode},
+faf=#{faf},
+age=#{age},
+price=#{price},
+remark=#{remark},
+attention=#{attention},
+img=#{img}  where id=#{id}
+    </update>
+    <!--删除套餐与组之间的关系-->
+    <delete id="deleteSetmealAnnGroup" parameterType="integer">
+        delete from t_setmeal_varietygroup where  setmeal_id=#{id}
+    </delete>
 
 </mapper>

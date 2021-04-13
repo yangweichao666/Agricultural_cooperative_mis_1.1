@@ -28,13 +28,15 @@ import java.util.UUID;
 public class SetmealController {
     @Reference
     private SetmealService setmealService;
+
     /**
      * 上传文件
+     *
      * @param imgFile
      * @return
      */
     @RequestMapping("/upload")
-    public Result upload(MultipartFile imgFile){
+    public Result upload(MultipartFile imgFile) {
         //获取原有的图片名称，截取到后缀名
         //获取图片名称
         String originalFilename = imgFile.getOriginalFilename();
@@ -56,19 +58,20 @@ public class SetmealController {
             //    }
             //}
             //存储容器·
-            Map<String,String> map = new HashMap<String,String>();
-            map.put("imgName",filename);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("imgName", filename);
             map.put("domain", QiNiuUtils.DOMAIN);
-            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS,map);
+            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS, map);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new Result(false, MessageConstant.PIC_UPLOAD_FAIL);
 
     }
+
     @PostMapping("/add")
-    public Result add(@RequestBody Setmeal setmeal,Integer[] checkgroupIds){
-        setmealService.add(setmeal,checkgroupIds);
+    public Result add(@RequestBody Setmeal setmeal, Integer[] checkgroupIds) {
+        setmealService.add(setmeal, checkgroupIds);
         return new Result(true, MessageConstant.ADD_SETMEAL_SUCCESS);
 
 
@@ -76,17 +79,44 @@ public class SetmealController {
 
     /**
      * 分页查询
+     *
      * @param queryPageBean
      * @return
      */
     @PostMapping("/findPage")
-    public  Result findPage(@RequestBody QueryPageBean queryPageBean){
-        PageResult pageResult=setmealService.findPage(queryPageBean);
-        return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS,pageResult);
+    public Result findPage(@RequestBody QueryPageBean queryPageBean) {
+        PageResult pageResult = setmealService.findPage(queryPageBean);
+        return new Result(true, MessageConstant.QUERY_SETMEAL_SUCCESS, pageResult);
 
     }
 
+    /**
+     * 根据id查询套餐数据 会多查pojo到里面的映射 好处是查组选中的时候不用后端再进行查询
+     * @param id
+     * @return
+     */
+    @PostMapping("/findById")
+    public Result findById(Integer id){
+        Setmeal setmeal = setmealService.findById(id);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("setmeal", setmeal);
+        resultMap.put("domain", QiNiuUtils.DOMAIN);
+        return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS,resultMap);
+
+    }
+
+    /**
+     *
+     * @param setmeal
+     * @param checkgroupIds
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody Setmeal setmeal, Integer[] checkgroupIds) {
+        setmealService.update(setmeal, checkgroupIds);
+        return new Result(true, MessageConstant.ADD_SETMEAL_SUCCESS);
 
 
+    }
 
 }

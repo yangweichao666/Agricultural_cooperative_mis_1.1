@@ -84,4 +84,27 @@ public class SetmealServiceImpl implements SetmealService {
        Setmeal setmeal= setmealDao.findById(id);
         return setmeal;
     }
+
+    /**
+     * 编辑套餐
+     * @param setmeal
+     * @param checkgroupIds
+     */
+    @Override
+    @Transactional
+    public void update(Setmeal setmeal, Integer[] checkgroupIds) {
+        //修改套餐
+        setmealDao.update(setmeal);
+        //删除全部关系
+        setmealDao.deleteSetmealAnnGroup(setmeal.getId());
+        //添加关系
+        //判断勾选的检查项是否为空
+        if(checkgroupIds.length>0){
+            for (Integer checkgroupId:checkgroupIds) {
+                setmealDao.addSetmealCheeckGroup(setmeal.getId(), checkgroupId);
+            }
+
+        }
+
+    }
 }

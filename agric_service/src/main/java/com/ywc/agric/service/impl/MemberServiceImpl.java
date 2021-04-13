@@ -48,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
         PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
        //
         if (!StringUtil.isEmpty(queryPageBean.getQueryString())){
-            queryPageBean.setQueryString("%"+queryPageBean.getQueryString()+"");
+            queryPageBean.setQueryString("%"+queryPageBean.getQueryString()+"%");
         }
         Page<Member> page =memberDao.findPage(queryPageBean.getQueryString());
         PageResult<Member> memberPageResult = new PageResult<Member>(page.getTotal(),page.getResult());

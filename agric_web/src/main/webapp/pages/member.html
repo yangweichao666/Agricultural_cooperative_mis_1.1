@@ -12,11 +12,12 @@
         <link rel="stylesheet" href="../plugins/elementui/index.css">
         <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="../css/style.css">
+
     </head>
     <body class="hold-transition">
         <div id="app">
             <div class="content-header">
-                <h1>农产品管理<small>品类项管理</small></h1>
+                <h1>会员管理<small>会员档案管理</small></h1>
                 <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                     <el-breadcrumb-item>会员档案管理</el-breadcrumb-item>
@@ -79,17 +80,17 @@
                             <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="档案号" prop="code">
+                                        <el-form-item label="档案号" prop="fileNumber">
                                             <el-input v-model="formData.fileNumber"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="姓名" prop="code">
+                                        <el-form-item label="姓名" prop="name">
                                             <el-input v-model="formData.name"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="性别" prop="code">
+                                        <el-form-item label="性别" prop="sex">
                                             <el-select v-model="formData.sex">
                                                 <el-option label="不详" value="0"></el-option>
                                                 <el-option label="男" value="1"></el-option>
@@ -98,39 +99,39 @@
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="身份证号" prop="code">
+                                        <el-form-item label="身份证号" prop="idCard">
                                             <el-input v-model="formData.idCard"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="手机号" prop="code">
-                                            <el-input v-model="formData.phoneNumber"/>
+                                        <el-form-item label="手机号" prop="phoneNumber">
+                                            <el-input v-model="formData.phoneNumber" οnclick="verifi()"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="注册时间" prop="code">
+                                        <el-form-item label="注册时间" prop="regTime">
                                             <el-input v-model="formData.regTime"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="登录密码" prop="code">
+                                        <el-form-item label="登录密码" prop="password">
                                             <el-input v-model="formData.password"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="邮箱" prop="code">
+                                        <el-form-item label="邮箱" prop="email">
                                             <el-input v-model="formData.email"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="出生日期" prop="code">
+                                        <el-form-item label="出生日期" prop="birthday">
                                             <el-input v-model="formData.birthday"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row :span="5">
                                     <el-col :span="24">
-                                        <el-form-item label="备注" prop="code">
+                                        <el-form-item label="备注" prop="remark">
                                             <el-input v-model="formData.remark"/>
                                         </el-form-item>
                                     </el-col>
@@ -152,17 +153,17 @@
                             <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
                                     <el-col :span="12">
-                                        <el-form-item label="档案号" prop="code">
+                                        <el-form-item label="档案号" prop="fileNumber">
                                             <el-input v-model="formData.fileNumber"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="姓名" prop="code">
+                                        <el-form-item label="姓名" prop="name">
                                             <el-input v-model="formData.name"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="性别" prop="code">
+                                        <el-form-item label="性别" prop="sex">
                                             <el-select v-model="formData.sex">
                                                 <el-option label="不详" value="0"></el-option>
                                                 <el-option label="男" value="1"></el-option>
@@ -171,39 +172,39 @@
                                         </el-form-item>
                                     </el-col>
                                                                         <el-col :span="12">
-                                                                            <el-form-item label="身份证号" prop="code">
+                                                                            <el-form-item label="身份证号" prop="idCard">
                                                                                 <el-input v-model="formData.idCard"/>
                                                                             </el-form-item>
                                                                         </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="手机号" prop="code">
+                                        <el-form-item label="手机号" prop="phoneNumber">
                                             <el-input v-model="formData.phoneNumber"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="注册时间" prop="code">
+                                        <el-form-item label="注册时间" prop="regTime">
                                             <el-input v-model="formData.regTime"/>
                                         </el-form-item>
                                     </el-col>
                                                                         <el-col :span="12">
-                                                                            <el-form-item label="登录密码" prop="code">
+                                                                            <el-form-item label="登录密码" prop="password">
                                                                                 <el-input v-model="formData.password"/>
                                                                             </el-form-item>
                                                                         </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="邮箱" prop="code">
+                                        <el-form-item label="邮箱" prop="email">
                                             <el-input v-model="formData.email"/>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="出生日期" prop="code">
+                                        <el-form-item label="出生日期" prop="birthday">
                                             <el-input v-model="formData.birthday"/>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row :span="5">
                                     <el-col :span="24">
-                                        <el-form-item label="备注" prop="code">
+                                        <el-form-item label="备注" prop="remark">
                                             <el-input v-model="formData.remark"/>
                                         </el-form-item>
                                     </el-col>
@@ -228,6 +229,7 @@
     <script src="../plugins/elementui/index.js"></script>
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/agricverify.js"></script>
     <script>
         var vue = new Vue({
             el: '#app',
@@ -255,12 +257,31 @@
             },
 
             methods: {
+                //校验
+                verifi(){
+                   var telephone= this.formData.phoneNumber
+                    //校验手机号输入是否正确  //在外部js里面
+                    if (!checkTelephone(telephone)) {
+                        this.$message.error('请输入正确的手机号');
+                        return false;
+                    }
+                    var idCard=this.formData.idCard;
+                    //校验身份证号格式
+                    if(!checkIdCard(idCard)){
+                        this.$message.error('身份证号码输入错误，请重新输入');
+                        return  false;
+                    }
+                },
                 //编辑
                 handleEdit() {
+
                     this.$refs["dataEditForm"].validate((valid) => {
-                        if (valid) {
+
+                        if (valid && this.verifi()) {
+
                             // alert('校验通过');
                             axios.post("/member/update.do",this.formData).then( (response)=>{
+
 
                                 if (response.data.flag){
                                     //成功
@@ -294,7 +315,8 @@
                 //添加
                 handleAdd () {
                     this.$refs["dataAddForm"].validate((valid) => {
-                        if (valid) {
+                        if (valid && this.verifi()) {
+
                             // alert('校验通过');
                             axios.post("/member/add.do",this.formData).then( (response)=>{
                                 //隐藏提交表单窗口
@@ -394,7 +416,7 @@
                 handleDelete(row) {
                     var id=row.id;
                     console.log(id)
-                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    this.$confirm('此操作将永久删除该内容, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
