@@ -65,7 +65,7 @@ public class OrderSettiongController {
             return new Result(true, MessageConstant.QUERY_ORDER_SUCCESS, orderSettingByMonth);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true, MessageConstant.QUERY_ORDER_FAIL);
+            return new Result(false, MessageConstant.QUERY_ORDER_FAIL);
         }
 
     }

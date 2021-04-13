@@ -1,12 +1,19 @@
 package com.ywc.agric.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
 import com.ywc.agric.dao.MemberDao;
 import com.ywc.agric.dao.OrderDao;
 import com.ywc.agric.dao.OrderSettingDao;
+import com.ywc.agric.dao.SetmealDao;
+import com.ywc.agric.entity.PageResult;
+import com.ywc.agric.entity.QueryPageBean;
 import com.ywc.agric.exception.HealthException;
 import com.ywc.agric.pojo.Member;
 import com.ywc.agric.pojo.Order;
 import com.ywc.agric.pojo.OrderSetting;
+import com.ywc.agric.pojo.Setmeal;
 import com.ywc.agric.service.OrderService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author YWC
@@ -32,6 +37,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private MemberDao memberDao;
+    @Autowired
+    private SetmealDao setmealDao;
 
     @Override
     public Order ordersubmit(Map<String, String> orderInfo) throws HealthException {
@@ -50,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
         }
         //查询当前状态
         OrderSetting orderSetting = orderSettingDao.findOrderData(orderDate);
+        if(orderSetting==null){
+            throw new HealthException("当前日期未安排预约容量");
+        }
         if (orderSetting.getReservations() >= orderSetting.getNumber()) {
             throw new HealthException("当前日期预约数量已满不能预约");
         }
@@ -90,5 +100,38 @@ public class OrderServiceImpl implements OrderService {
     public Map<String, Object> findDetailById(Integer id) {
 
         return orderDao.findById4Detail(id);
+    }
+
+    @Override
+    public PageResult findByPage(QueryPageBean queryPageBean) {
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
+        //判断条件是否存在
+        if (!StringUtil.isEmpty(queryPageBean.getQueryString())){
+            queryPageBean.setQueryString("%"+queryPageBean.getQueryString()+"%");
+        }
+        Page<Order> page=orderDao.findPage(queryPageBean.getQueryString());
+        List<Order> orderList = page.getResult();
+        //将套餐名称
+        //会员名称拼接起来
+        ArrayList<Map> orderNewList = new ArrayList<>();
+        for (Order order : orderList) {
+            Member member = memberDao.findById(order.getMemberId());
+            Setmeal setmeal = setmealDao.findById(order.getSetmealId());
+            HashMap<String, Object> orderMap = new HashMap<>();
+            orderMap.put("id",order.getId());
+            orderMap.put("memberId",order.getMemberId());
+            if (member!=null)
+            orderMap.put("memberName",member.getName());
+            orderMap.put("orderStatus",order.getOrderStatus());
+            orderMap.put("orderType",order.getOrderType());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+            Date orderDate = order.getOrderDate();
+            orderMap.put("orderDate",simpleDateFormat.format(orderDate));
+            orderMap.put("setmealId",order.getSetmealId());
+            if (setmeal!=null)
+            orderMap.put("setmealName",setmeal.getName());
+            orderNewList.add(orderMap);
+        }
+        return new PageResult(page.getTotal(),orderNewList);
     }
 }

@@ -3,7 +3,7 @@ html,body {
 	margin: 0;
 }
 a {
-	color: #3c8dbc;
+	color: #36EAB0;
 	text-decoration:none;
 }
 /* new style */
@@ -11,7 +11,9 @@ a {
 	background: #fff;
 }
 .skin-purple .main-header .logo:hover {
-	background: #0abdfe;
+	//background: #0abdfe;
+	background: #36EAB0;
+
 }
 .skin-purple .main-header .navbar .sidebar-toggle:hover {
 	/* background: #0abdfe; */
@@ -29,7 +31,7 @@ a {
 }
 .skin-purple .main-header .navbar {
 	height: 70px;
-	background: linear-gradient(to right, #0abdfe, #67f0e0);
+	background: linear-gradient(to right, #0AFE47, #67f0e0);
   /* margin-left: 230px; */
 }
 .winfo{margin-left: 230px;}
@@ -88,8 +90,10 @@ a {
 	box-shadow: none
 }
 .btn-primary {
-	background: #0abdfe;
-	border-color: #0abdfe;
+	/*background: #0abdfe;*/
+	background: #36EAB0;
+	/*border-color: #0abdfe;*/
+	border-color: #36EAB0;
 }
 .box-body .nav>li>a {
 	color: #666

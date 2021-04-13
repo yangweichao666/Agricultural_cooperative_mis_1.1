@@ -76,4 +76,18 @@ public interface MemberDao {
      * @return
      */
     Integer findMemberTotalCount();
+
+    /**
+     * 分页查询
+     * @param queryString
+     * @return
+     */
+    Page<Member> findPage(String queryString);
+
+    /**
+     * 根据id查询是否存在
+     * @param id
+     * @return
+     */
+    int findCountByMemberId(int id);
 }

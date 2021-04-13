@@ -1,5 +1,7 @@
 package com.ywc.agric.service;
 
+import com.ywc.agric.entity.PageResult;
+import com.ywc.agric.entity.QueryPageBean;
 import com.ywc.agric.exception.HealthException;
 import com.ywc.agric.pojo.Order;
 
@@ -18,4 +20,11 @@ public interface OrderService {
      * @return
      */
     Map<String, Object> findDetailById(Integer id);
+
+    /**
+     * 订单信息分页查询
+     * @return
+     * @param queryPageBean
+     */
+    PageResult findByPage(QueryPageBean queryPageBean);
 }

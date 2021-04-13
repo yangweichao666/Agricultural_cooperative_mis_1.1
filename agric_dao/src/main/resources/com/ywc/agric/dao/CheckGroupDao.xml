@@ -41,7 +41,7 @@
         select * from t_varietygroup where id=#{id}
     </select>
     <select id="findCheckGroupAndCheckItemIds" parameterType="integer" resultType="integer">
-        select varietyitem_id from  t_varietygroup_varietyitem where varietyitem_id=#{id}
+        select varietyitem_id from  t_varietygroup_varietyitem where varietygroup_id=#{id}
     </select>
 <!--    编辑-->
 

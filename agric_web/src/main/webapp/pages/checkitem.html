@@ -67,7 +67,7 @@
                     </div>
                     <!-- 新增标签弹层 -->
                     <div class="add-form">
-                        <el-dialog title="新增检查项" :visible.sync="dialogFormVisible">
+                        <el-dialog title="新增品类项" :visible.sync="dialogFormVisible">
                             <!--visible.sync="dialogFormVisible"绑定的数据-->
                             <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
@@ -102,8 +102,8 @@
                                     <el-col :span="12">
                                         <el-form-item label="类型">
                                             <el-select v-model="formData.type">
-                                                <el-option label="检查" value="1"></el-option>
-                                                <el-option label="检验" value="2"></el-option>
+                                                <el-option label="经济作物" value="1"></el-option>
+                                                <el-option label="非经济作物" value="2"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
@@ -137,7 +137,7 @@
 
                     <!-- 编辑标签弹层 -->
                     <div class="add-form">
-                        <el-dialog title="编辑检查项" :visible.sync="dialogFormVisible4Edit">
+                        <el-dialog title="编辑品类项" :visible.sync="dialogFormVisible4Edit">
                             <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
                                     <el-col :span="12">
@@ -171,8 +171,8 @@
                                     <el-col :span="12">
                                         <el-form-item label="类型">
                                             <el-select v-model="formData.type">
-                                                <el-option label="检查" value="1"></el-option>
-                                                <el-option label="检验" value="2"></el-option>
+                                                <el-option label="品类" value="1"></el-option>
+                                                <el-option label="非经济作物" value="2"></el-option>
                                             </el-select>
                                         </el-form-item>
                                     </el-col>
@@ -350,7 +350,7 @@
 
 
                 },
-                //通过id查询检查项信息
+                //通过id查询品类项信息
                 findById(id){
                     axios.post("/checkitem/findById.do?id="+id).then((res)=>{
                         // res.data=>result

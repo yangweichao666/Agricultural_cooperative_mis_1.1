@@ -81,4 +81,11 @@
           group by o.setmeal_id
           order by setmeal_count desc limit 0,4
     </select>
+    <!--分页查询-->
+    <select id="findPage" parameterType="String" resultType="com.ywc.agric.pojo.Order">
+        select id ,member_id memberId ,orderDate ,orderType,orderStatus,setmeal_id setmealId from t_order
+        <if test="value !=null and value.length > 0">
+            where  orderDate like #{value} or orderType like #{value}
+        </if>
+    </select>
 </mapper>

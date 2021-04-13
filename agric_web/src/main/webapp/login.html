@@ -1,46 +1,72 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- 页面meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>农业合作社信息管理系统</title>
-        <meta name="description" content="农业合作社信息管理系统">
-        <meta name="keywords" content="农业合作社信息管理系统">
-        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-        <!-- 引入样式 -->
-        <link rel="stylesheet" href="plugins/elementui/index.css">
-        <link rel="stylesheet" href="css/login.css">
-    </head>
-    <body class="hold-transition skin-purple sidebar-mini">
-        <div id="app">
-            <div class="login-container">
-                <div class="loginBox">
-                  <form method="post" class="login-form" action="/login.do" label-position="left">
-                      <div class="title-container">
-                        <div class="logoInfo clearfix">
-                          <em class="logo"></em>
-                        </div>
-                      </div>
-                      <div>
-                        <span class="svg-container svg-container_login">
-                          <span class="user"></span>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>农业合作社信息管理系统</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--图标样式-->
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+<!--布局框架-->
+<link rel="stylesheet" type="text/css" href="css/util.css">
+
+<!--主要样式-->
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('/img/loginImg.png');">
+            <div class="wrap-login100 p-t-190 p-b-30">
+                <form method="post" class="login100-form validate-form" action="/login.do">
+                    <div class="login100-form-avatar">
+                        <img src="/img/loginImg.png" alt="AVATAR">
+                    </div>
+
+                    <span class="login100-form-title p-t-20 p-b-45">欢迎登录农业合作社信息管理系统</span>
+
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="请输入用户名">
+                        <input class="input100" type="text" name="username" placeholder="用户名" value="admin" autocomplete="off">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-user"></i>
                         </span>
-                        <input type="text" name="username" value="admin" placeholder="请输入用户名" />
-                      </div>
-                      <div>
-                        <span class="svg-container">
-                          <span class="username"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="请输入密码">
+                        <input class="input100" type="password" name="password"  value="1234" placeholder="密码">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock"></i>
                         </span>
-                        <input type="password" name="password" value="1234" placeholder="请输入密码"/>
-                      </div>
-                      <input type="submit" style="width:100%;margin-bottom:30px;" value="登录"></input>
+                    </div>
+
+                    <div class="container-login100-form-btn p-t-10">
+<!--                        <button class="login100-form-btn">登 录</button>-->
+                        <input type="submit" class="login100-form-btn"  value="登录"></input>
+                    </div>
+
+                    <div class="text-center w-full p-t-25 p-b-230">
+                        <a href="#" class="txt1">忘记密码？</a>
+                    </div>
+
+                    <div class="text-center w-full">
+                        <a class="txt1" href="#">
+                            立即注册
+                            <i class="fa fa-long-arrow-right"></i>
+                        </a>
+                    </div>
                 </form>
-                </div>
-              </div>
+            </div>
         </div>
-    </body>
-    <!-- 引入组件库 -->
-    <script src="js/vue.js"></script>
-    <script src="plugins/elementui/index.js"></script>
+    </div>
+    <script src="js/jquery.min.js"></script>
+<!--    <script src="vendor/jquery/jquery-1.12.4.min.js"></script>-->
+    <script src="js/main.js"></script>
+
+</body>
 </html>

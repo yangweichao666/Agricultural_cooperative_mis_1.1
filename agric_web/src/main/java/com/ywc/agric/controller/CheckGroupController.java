@@ -36,7 +36,7 @@ public class CheckGroupController {
     }
 
     /**
-     * 编辑中根据id查询检查组
+     * 编辑中根据id查询品类组
      * @param id
      * @return
      */
@@ -47,7 +47,7 @@ public class CheckGroupController {
     }
 
     /**
-     * 根据检查组id查询检查组关系
+     * 根据品类组id查询品类组关系
      * @param id
      * @return
      */
@@ -58,7 +58,7 @@ public class CheckGroupController {
     }
 
     /**
-     * 修改检查组
+     * 修改品类组
      * @param checkGroup
      * @param checkItemIds
      * @return

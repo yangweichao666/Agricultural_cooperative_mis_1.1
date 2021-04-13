@@ -359,7 +359,7 @@
                     this.resetForm();
                     this.dialogFormVisible=true;
                     //发送请求获取所有的检查项
-                    axios.get("/checkgroup/findAll.do").then(res=>{
+                    axios.get("/checkitem/findAll.do").then(res=>{
                         if (res.data.flag){
                             this.tableData=res.data.data.rows
                             console.log("查询所有检查项成功！")
@@ -389,7 +389,7 @@
                             axios.get("/checkitem/findAll.do").then(res=>{
                                 if (res.data.flag){
                                     this.tableData=res.data.data.rows
-                                    //查询组关系中的观察项
+                                    //查询组关系中的已经选中项
                                     axios.post("/checkgroup/findCheckGroupAndCheckItemIds.do?id="+id).then(res=>{
                                         if (res.data.flag){
                                             this.checkitemIds=res.data.data;

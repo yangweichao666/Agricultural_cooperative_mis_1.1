@@ -1,7 +1,7 @@
 package com.ywc.agric.jobs;
 
-import com.itheima.health.service.SetmealService;
-import com.itheima.health.util.QiNiuUtils;
+import com.ywc.agric.service.SetmealService;
+import com.ywc.agric.util.QiNiuUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Component;
 

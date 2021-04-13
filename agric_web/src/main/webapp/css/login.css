@@ -30,7 +30,9 @@ html,body {
 .login-container .loginBox{
   height: 100%;
   width: 100%;
+  background-size:100%;
  background: url('./../img/logingBg.png') no-repeat 100% 100%;
+
  position: relative;
 }
 .login-container .loginBox .el-form-item__content{

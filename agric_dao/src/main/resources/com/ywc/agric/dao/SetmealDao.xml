@@ -22,7 +22,7 @@
 
     </insert>
     <insert id="addSetmealCheeckGroup" parameterType="integer">
-        insert  into t_varietygroup_varietyitem(setmeal_id,varietyitem_id) values(#{setmeal_id},#{varietyitem_id})
+        insert  into t_setmeal_varietygroup(setmeal_id,varietygroup_id) values(#{setmeal_id},#{varietygroup_id})
     </insert>
     <!--分页查询-->
     <select id="findPage" parameterType="String" resultType="Setmeal">
@@ -57,22 +57,22 @@
         <result property="img" column="img" />
         <collection property="checkGroups" ofType="CheckGroup">
             <id property="id" column="varietyitem_id"/>
-            <result property="name" column="checkgroup_name"/>
-            <result property="remark" column="checkgroup_remark"/>
+            <result property="name" column="varietygroup_name"/>
+            <result property="remark" column="varietygroup_remark"/>
             <collection property="checkItems" ofType="CheckItem">
                 <id property="id" column="varietyitem_id"/>
-                <result property="name" column="checkitem_name"/>
+                <result property="name" column="varietyitem_name"/>
             </collection>
         </collection>
     </resultMap>
     <select id="findById" resultMap="setmealDetailMap" parameterType="int">
-        SELECT  s.*, sg.varietyitem_id, cg.name checkgroup_name, cg.remark as checkgroup_remark,
-        cc.varietyitem_id, ci.name checkitem_name
-        FROM  t_setmeal s, t_varietygroup_varietyitem sg,
+        SELECT  s.*, sg.varietygroup_id, cg.name varietygroup_name, cg.remark as varietygroup_remark,
+        cc.varietyitem_id, ci.name varietyitem_name
+        FROM  t_setmeal s, t_setmeal_varietygroup sg,
         t_varietygroup cg, t_varietygroup_varietyitem cc,
         t_varietyitem ci
-        WHERE s.id=sg.setmeal_id AND sg.varietyitem_id=cg.id AND
-        cg.id=cc.varietyitem_id AND cc.varietyitem_id=ci.id AND s.id=#{id}
+        WHERE s.id=sg.setmeal_id AND sg.varietygroup_id=cg.id AND
+        cg.id=cc.varietygroup_id AND cc.varietyitem_id=ci.id AND s.id=#{id}
 
     </select>
 

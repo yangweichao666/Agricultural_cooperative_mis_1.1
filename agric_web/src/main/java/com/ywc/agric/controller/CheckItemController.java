@@ -68,7 +68,7 @@ public class CheckItemController {
     }
 
     /**
-     * 进行删除检查项
+     * 进行删除项
      * @param id
      * @return
      */
@@ -86,7 +86,7 @@ public class CheckItemController {
     }
 
     /**
-     * 根据id查询检查项
+     * 根据id查询项
      * @param id
      * @return
      */
