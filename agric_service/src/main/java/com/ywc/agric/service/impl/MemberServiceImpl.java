@@ -14,6 +14,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -83,5 +84,11 @@ public class MemberServiceImpl implements MemberService {
     public void update(Member member) {
         memberDao.edit(member);
 
+    }
+
+    @Override
+    public List<Member> findAll() {
+        List<Member> members=memberDao.findAll();
+        return members;
     }
 }

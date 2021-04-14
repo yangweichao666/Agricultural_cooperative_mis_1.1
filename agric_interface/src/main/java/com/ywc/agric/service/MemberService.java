@@ -5,6 +5,7 @@ import com.ywc.agric.entity.QueryPageBean;
 import com.ywc.agric.exception.HealthException;
 import com.ywc.agric.pojo.Member;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,4 +43,6 @@ public interface MemberService {
      * @param member
      */
     void update(Member member);
+
+    List<Member> findAll();
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @Author YWC
  * @Date 2021/4/12 20:37
@@ -92,5 +94,13 @@ public class MemberController {
     public Result update(@RequestBody Member member) {
         memberService.update(member);
         return new Result(true, MessageConstant.EDIT_MEMBER_SUCCESS);
+    }
+    /**
+     * 查询所有
+     */
+    @PostMapping("/findAll")
+    public Result findAll(){
+        List<Member> members=memberService.findAll();
+        return new Result(true,"查询会员列表成功",members);
     }
 }

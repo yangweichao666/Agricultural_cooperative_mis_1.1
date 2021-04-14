@@ -66,4 +66,5 @@ public interface    MessageConstant {
     static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
     static final String GET_MEMBER_SUCCESS ="根据id查询会员成功" ;
+    static final String QUERY_CONTRACT_SUCCESS = "获取合同信息成功";
 }

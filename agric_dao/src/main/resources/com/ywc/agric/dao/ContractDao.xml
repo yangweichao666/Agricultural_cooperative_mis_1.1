@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!--引入的约束-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywc.agric.dao.ContractDao">
+<!--    添加-->
+    <insert id="add">
+        insert into t_contract(
+        name,
+        location,
+        size,
+        img,
+        memberId,
+        remark) values(
+        #{name},
+        #{location},
+        #{size},
+        #{img},
+        #{memberId},
+        #{remark})
+    </insert>
+<!--动态 SQL 之where标签 （不能单独使用必须和if一起使用）-->
+    <select id="findPage" resultType="com.ywc.agric.pojo.Contract">
+        select c.*,m.name as memberName from t_contract c,t_member m
+        <where>
+            <if test="value ==null or value.length == 0">
+                c.memberId=m.id
+            </if>
+            <if test="value !=null and value.length > 0">
+
+            and c.name like #{value} or location like #{value}
+            </if>
+
+        </where>
+
+
+    </select>
+
+    <!--修改-->
+    <update id="update" parameterType="com.ywc.agric.pojo.Contract">
+        update t_contract set
+        name=#{name},
+        location=#{location},
+        size=#{size},
+        img=#{img},
+        memberId=#{memberId},
+        remark=#{remark} where id=#{id}
+
+    </update>
+    <select id="findById" resultType="com.ywc.agric.pojo.Contract" parameterType="integer">
+        select * from t_contract where id=#{id}
+    </select>
+</mapper>
