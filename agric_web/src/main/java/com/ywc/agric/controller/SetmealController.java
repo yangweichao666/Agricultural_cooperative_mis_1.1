@@ -36,33 +36,33 @@ public class SetmealController {
      * @return
      */
     @RequestMapping("/upload")
-    public Result upload(MultipartFile imgFile) {
-        //获取原有的图片名称，截取到后缀名
-        //获取图片名称
-        String originalFilename = imgFile.getOriginalFilename();
-        //截取到后缀名
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        //- 生成唯一文件名，拼接后缀名
-        String filename = UUID.randomUUID() + extension;
+    public Result upload(@RequestBody Map map) {
+//        //获取原有的图片名称，截取到后缀名
+//        //获取图片名称
+//        String originalFilename = imgFile.getOriginalFilename();
+//        //截取到后缀名
+//        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+//        //- 生成唯一文件名，拼接后缀名
+//        String filename = UUID.randomUUID() + extension;
 
         try {
-            //- 调用七牛上传文件方法
-            QiNiuUtils.uploadViaByte(imgFile.getBytes(), filename);
-            //- 返回数据给页面
-            //{
-            //    flag:
-            //    message:
-            //    data:{
-            //        imgName: 图片名,
-            //        domain: QiNiuUtils.DOMAIN
-            //    }
-            //}
-            //存储容器·
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("imgName", filename);
-            map.put("domain", QiNiuUtils.DOMAIN);
-            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS, map);
-        } catch (IOException e) {
+//            //- 调用七牛上传文件方法
+//            QiNiuUtils.uploadViaByte(imgFile.getBytes(), "ss");
+//            //- 返回数据给页面
+//            //{
+//            //    flag:
+//            //    message:
+//            //    data:{
+//            //        imgName: 图片名,
+//            //        domain: QiNiuUtils.DOMAIN
+//            //    }
+//            //}
+//            //存储容器·
+//            Map<String, String> map = new HashMap<String, String>();
+//            map.put("imgName", filename);
+//            map.put("domain", QiNiuUtils.DOMAIN);
+//            return new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS, map);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new Result(false, MessageConstant.PIC_UPLOAD_FAIL);

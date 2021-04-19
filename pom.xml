@@ -318,6 +318,12 @@
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
+           <!--数组合并依赖包-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
 
 
             <dependency>
@@ -326,6 +332,7 @@
                 <version>4.12</version>
                 <scope>test</scope>
             </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -6,6 +6,8 @@ import com.ywc.agric.entity.QueryPageBean;
 import com.ywc.agric.pojo.Contract;
 import com.ywc.agric.pojo.Setmeal;
 
+import java.util.List;
+
 /**
  * @Author YWC
  * @Date 2021/4/14 14:30
@@ -23,4 +25,6 @@ public interface ContractService {
     Contract findById(Integer id);
 
     void update(Contract contract);
+
+    List<String> findImgs();
 }

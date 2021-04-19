@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <QuillEditor v-model="content"/>
+    <script src="js/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <script src="js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+
+</head>
+<body >
+<div id="app">
+    <textarea id="detail" name="content"></textarea>
+    <input type="button" @click="getContext()">
+</div>
+
+<script>
+
+    var vue = new Vue({
+        el:"#app",
+        data:{//这里面就是所有的数据模型
+            message:"hello world"
+        },
+        created() {
+            this.setEditor("要输入的文本");
+        },
+        methods: {
+            //此var 是默认的内容
+            setEditor(val){
+                var _this = this;
+                //第一次打开初始化
+                tinymce.init({
+                    selector: '#detail',
+                    language: 'zh_CN',//语言
+                    height: 300,//编辑器高度
+                    branding: false,//是否禁用“Powered by TinyMCE”
+                    plugins: [
+                        'powerpaste table advlist autolink lists link charmap print preview hr anchor pagebreak',
+                        'searchreplace wordcount visualblocks visualchars code fullscreen',
+                        'insertdatetime nonbreaking save table contextmenu directionality',
+                        'emoticons textcolor colorpicker textpattern image code codesample toc pagebreak'
+                    ],
+                    toolbar1: 'undo redo | table | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                    toolbar2: 'print preview | forecolor backcolor emoticons | codesample | pagebreak | toc | fullscreen',
+                    image_advtab: true,
+                    paste_data_images: true,
+                    menubar: false,//禁用标题栏
+                    automatic_uploads: true,
+                    media_live_embeds: true,//查看上传的视频
+                    //图片选择上传
+                    images_upload_handler: function (blobInfo, success, failure) {
+                        var xhr, formData;
+                        var file = blobInfo.blob();//转化为易于理解的file对象
+                        var isLt10M = file.size / 1024 / 1024  < 10;
+                        if(!isLt10M){
+                            failure('上传图片大小不能超过10MB哦!');
+                            return;
+                        }
+                        xhr = new XMLHttpRequest();
+                        xhr.withCredentials = false;
+                        var ctx="http://localhost:1756"
+                        xhr.open('POST',ctx + '/upload/fwb.do');
+                        xhr.onload = function() {
+                            var json;
+                            if (xhr.status != 200) {
+                                failure('上传失败!');
+                                return;
+                            }
+                            json = JSON.parse(xhr.responseText);
+                            if (!json.data || typeof json.data.data != 'string') {
+                                failure('上传失败!');
+                                return;
+                            }
+                            success(json.data.filePath);
+                        };
+                        formData = new FormData();
+                        formData.append('file', file, file.name );//此处与源文档不一样
+                        xhr.send(formData);
+                    },
+                    //初始化完成回调函数
+                    init_instance_callback : editor => {
+                        //如果第一次打开并且是查看动态记录详情则直接设置值
+                        if(!this.editorInit && val){
+                            editor.setContent(val);
+                        }
+                        //修改为初始化完成
+                        this.editorInit = true;
+                    }
+                });
+                if(this.editorInit){
+                    //清空富文本编辑器内容
+                    tinymce.activeEditor.setContent("");
+                    //如果是查看在重新设置内容
+                    if(val){
+                        tinymce.activeEditor.setContent(val);
+                    }
+                }
+            }
+            ,//新增
+            add(){
+                this.RecordOperation.title = "新增";
+                this.RecordOperation.show = true;
+                setTimeout(()=>{
+                    this.setEditor();
+                },500);
+            },
+            getContext(){
+
+                this.aa = tinymce.activeEditor.getContent();
+                alert(this.aa)
+            }
+            ,
+            //查询详情
+            queryDynamicInfo(dynamicId){
+                axios.get('mj/projectMessage/queryDynamicInfo/'+dynamicId).then(res => {
+                    this.RecordOperation.data = res.data;
+                    this.RecordOperation.show = true;
+                    this.RecordOperation.title = "编辑动态";
+                    setTimeout(()=>{
+                        this.setEditor(this.RecordOperation.data.content);
+                    },500);
+                });
+            }
+        }
+
+
+    });
+</script>
+<script>
+
+    export default {
+        //初始化富文本
+
+    }
+</script>
+
+</body>
+</html>

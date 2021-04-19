@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <div class="form-group">
+        <input name="editor_content" id="editor_content" autocomplete="off" class="layui-input" type="hidden">
+        <label class="col-sm-3 control-label">文字内容：</label>
+        <div class="col-sm-8" id="editor">
+            <!--<p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>-->
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+<!-- 引入 wangEditor.min.js -->
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+
+    <script type="text/javascript">
+        var editor;
+
+            var E = window.wangEditor
+            editor = new E('#editor') // 隐藏“网络图片”tab 
+            editor.config.showLinkImg = false
+// 或者 var editor = new E( document.getElementById('editor') ) 
+//editor.config.qiniu = true 
+// 通过 url 参数配置 debug 模式。url 中带有 wangeditor_debug_mode=1 才会开启 debug 模式
+            editor.config.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0
+            editor.config.uploadImgServer = '/backstage/payauto/editor.do';
+            editor.config.uploadFileName = 'multiple'; //与后台获取文件名相同 
+            editor.config.linkImgCallback = function (url) {
+                console.log(url) // url 即插入图片的地址 
+            }
+            editor.create()
+
+
+
+</script>
+    <!-- 引入组件库 -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <div id="app">
+        <input type="button" value="显示" @click="get()">
+    </div>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{},
+        methods:{
+            //获取输入的内容方法
+            get(){
+                var a =editor.txt.html()
+                alert(a);
+            }
+        }
+        })
+ </script>
+
+
+</html>

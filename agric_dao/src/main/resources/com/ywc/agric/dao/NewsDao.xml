@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!--引入的约束-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywc.agric.dao.NewsDao">
+<!--    添加-->
+    <insert id="add"  parameterType="com.ywc.agric.pojo.News">
+       insert into news(
+title,
+context,
+img,
+date) value(#{title},
+#{context},
+#{img},
+#{date})
+    </insert>
+<!--动态 SQL 之where标签 （不能单独使用必须和if一起使用）-->
+    <select id="findPage" resultType="com.ywc.agric.pojo.News">
+        select *  from news
+          <if test="value !=null and value.length > 0">
+          where    title like #{value} or date like #{value}
+            </if>
+
+    </select>
+
+    <!--修改-->
+    <update id="update" parameterType="com.ywc.agric.pojo.News">
+         update news set  title=#{title},
+context=#{context},
+img=#{img},
+date=#{date} where id=#{id}
+
+    </update>
+    <select id="findById" resultType="com.ywc.agric.pojo.News" parameterType="integer">
+      select * from news where id=#{id}
+    </select>
+    <select id="findImgs" resultType="java.lang.String">
+
+    </select>
+</mapper>

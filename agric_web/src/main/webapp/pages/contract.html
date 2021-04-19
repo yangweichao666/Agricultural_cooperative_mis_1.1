@@ -144,7 +144,7 @@
                                             <el-row>
                                                 <el-col :span="12">
                                                     <el-form-item label="位置">
-                                                        <el-input v-model="formData.loaction"/>
+                                                        <el-input v-model="formData.location"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
@@ -249,7 +249,7 @@
                                             <el-row>
                                                 <el-col :span="12">
                                                     <el-form-item label="位置">
-                                                        <el-input v-model="formData.loaction"/>
+                                                        <el-input v-model="formData.location"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
@@ -301,6 +301,7 @@
                                                                 type="index"
                                                                 width="50">
                                                         </el-table-column>
+
                                                         <el-table-column
                                                                 property="phoneNumber"
 
@@ -316,6 +317,7 @@
 
                                                     </el-table>
                                                     <div style="margin-top: 20px">
+                                                        <el-button @click="setCurrent(tableData[tableData.length-1])">到最后一个行</el-button>
 
                                                         <el-button @click="setCurrent()">取消选择</el-button>
                                                     </div>
@@ -478,6 +480,18 @@
                             axios.post("/member/findAll.do").then(res1 => {
                                 if(res1.data.flag){
                                     this.tableData = res1.data.data;
+                                    //根据id查找用户被选中的项
+                                    axios.post("/member/findById.do?id="+this.formData.memberId).then(res=>{
+                                        if (res.data.flag){
+                                            //设置默认选中
+                                            this.setCurrent(res.data.data);
+                                        }else {
+                                            //失败
+                                            this.$message.error(res.data.message);
+                                        }
+
+                                    })
+
 
                                 }else{
                                     this.$message.error(res1.data.message);
@@ -533,9 +547,6 @@
                     this.currentRow = val;
                     if (this.currentRow!=null){
                         this.memberId=this.currentRow.id;
-                    }else{
-                        //失败
-                        this.$message.error("出错");
                     }
                 }
             }

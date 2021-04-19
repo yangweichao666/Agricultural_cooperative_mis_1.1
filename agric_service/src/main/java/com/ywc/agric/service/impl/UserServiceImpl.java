@@ -7,6 +7,8 @@ import com.ywc.agric.service.UserService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 
 /**
  * @Author YWC
@@ -20,5 +22,10 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
 
         return userDao.findByUsername(username);
+    }
+
+    @Override
+    public List<String> findImgs() {
+        return userDao.findImgs();
     }
 }

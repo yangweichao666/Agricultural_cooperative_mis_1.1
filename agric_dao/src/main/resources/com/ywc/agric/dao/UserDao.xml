@@ -15,6 +15,9 @@
         and r.id=rp.role_id and rp.permission_id=p.id
         and u.username=#{username}
     </select>
+    <select id="findImgs" resultType="java.lang.String">
+        select img from t_user
+    </select>
 
     <resultMap id="userRolePermissionMap" type="User">
         <id property="id" column="id"></id>

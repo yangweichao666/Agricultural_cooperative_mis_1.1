@@ -14,6 +14,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.crypto.dsig.XMLValidateContext;
+import java.util.List;
 
 /**
  * @Author YWC
@@ -51,5 +52,10 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void update(Contract contract) {
         contractDao.update(contract);
+    }
+
+    @Override
+    public List<String> findImgs() {
+        return contractDao.findImgs();
     }
 }

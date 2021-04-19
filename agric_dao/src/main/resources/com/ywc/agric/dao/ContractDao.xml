@@ -50,4 +50,7 @@
     <select id="findById" resultType="com.ywc.agric.pojo.Contract" parameterType="integer">
         select * from t_contract where id=#{id}
     </select>
+    <select id="findImgs" resultType="java.lang.String">
+        select img from t_contract
+    </select>
 </mapper>

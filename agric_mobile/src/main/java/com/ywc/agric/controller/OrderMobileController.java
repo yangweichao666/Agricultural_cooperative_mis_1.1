@@ -39,7 +39,7 @@ public class OrderMobileController {
         String validateCode = orderInfo.get("validateCode");
 
         if (!StringUtil.isEmpty(validateCode)){
-
+            //获取在 redis存储的手机号验证码
             String code = jedisPoolResource.get(key);
             if (code==null){
                 return  new Result(false, "验证码失效请重新获取验证码！");

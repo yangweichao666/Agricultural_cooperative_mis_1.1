@@ -3,6 +3,8 @@ package com.ywc.agric.service;
 
 import com.ywc.agric.pojo.User;
 
+import java.util.List;
+
 /**
  * @Author YWC
  * @Date 2021/4/8 9:37
@@ -14,4 +16,6 @@ public interface UserService {
      * @return
      */
     User findByUsername(String username);
+
+    List<String> findImgs();
 }
