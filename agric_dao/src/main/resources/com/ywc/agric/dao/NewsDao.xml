@@ -8,10 +8,10 @@
        insert into news(
 title,
 context,
-img,
+img,outline,
 date) value(#{title},
 #{context},
-#{img},
+#{img},#{outline},
 #{date})
     </insert>
 <!--动态 SQL 之where标签 （不能单独使用必须和if一起使用）-->
@@ -28,6 +28,7 @@ date) value(#{title},
          update news set  title=#{title},
 context=#{context},
 img=#{img},
+outline=#{outline},
 date=#{date} where id=#{id}
 
     </update>
@@ -36,5 +37,8 @@ date=#{date} where id=#{id}
     </select>
     <select id="findImgs" resultType="java.lang.String">
 
+    </select>
+    <select id="findNewFive" resultType="com.ywc.agric.pojo.News">
+          select * from news  limit 0,5
     </select>
 </mapper>

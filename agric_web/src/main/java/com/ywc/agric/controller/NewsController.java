@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author YWC
@@ -55,6 +56,18 @@ public class NewsController {
         News news=  newsService.findById(id);
         return new Result(true, "查询新闻成功",news);
 
+    }
+
+    @PostMapping("/findNewFive")
+    public Result  findNewFive() {
+        List<News> formData = newsService.findNewFive();
+
+
+        //返回分页数据和图片域名链接
+        HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+        stringObjectHashMap.put("rows", formData);
+        stringObjectHashMap.put("domain", QiNiuUtils.DOMAIN);
+        return new Result(true, MessageConstant.QUERY_CONTRACT_SUCCESS, stringObjectHashMap);
     }
 
 }

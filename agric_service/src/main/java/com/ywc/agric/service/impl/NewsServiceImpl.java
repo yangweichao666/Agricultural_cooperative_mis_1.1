@@ -17,6 +17,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author YWC
@@ -53,5 +54,10 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News findById(Integer id) {
         return newsDao.findById(id);
+    }
+
+    @Override
+    public List<News> findNewFive() {
+        return newsDao.findNewFive();
     }
 }

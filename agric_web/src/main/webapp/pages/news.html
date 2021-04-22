@@ -87,9 +87,9 @@
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                 <el-table-column type="index" align="left" width="60" label="序号"></el-table-column>
-                <el-table-column prop="title" label="标题" width="260" align="left"></el-table-column>
-                <el-table-column prop="date" label="创建时间" width="160" align="left"></el-table-column>
-                <el-table-column   label="封面" width="200" align="left">
+                <el-table-column prop="title" label="标题" width="350" align="left"></el-table-column>
+                <el-table-column prop="date" label="创建时间" width="180" align="left"></el-table-column>
+                <el-table-column   label="封面" width="230" align="left">
                     <template slot-scope="scope">
                         <div class="demo-image__preview">
                             <el-image
@@ -103,7 +103,7 @@
                 </el-table-column>
 
 
-                <el-table-column prop="remark" label="说明" align="left"></el-table-column>
+                <el-table-column prop="outline" label="内容概要" align="left"></el-table-column>
                 <el-table-column label="操作" width="160" align="left">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -122,217 +122,9 @@
                 </el-pagination>
             </div>
             <!-- 新增标签弹层 -->
-            <div class="add-form">
-                <el-dialog title="新增套餐" :visible.sync="dialogFormVisible">
-                    <template>
-                        <el-tabs v-model="activeName" type="card">
-                            <el-tab-pane label="基本信息" name="first">
-                                <el-form label-position="right" label-width="100px">
-                                    <el-row>
-                                        <!--                                                <el-col :span="12">-->
-                                        <!--                                                    <el-form-item label="编码">-->
-                                        <!--                                                        <el-input v-model="formData.code"/>-->
-                                        <!--                                                    </el-form-item>-->
-                                        <!--                                                </el-col>-->
-                                        <el-col :span="12">
-                                            <el-form-item label="名称">
-                                                <el-input v-model="formData.name"/>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="12">
-                                            <el-form-item label="位置">
-                                                <el-input v-model="formData.location"/>
-                                            </el-form-item>
-                                        </el-col>
-                                        <el-col :span="12">
-                                            <el-form-item label="大小">
-                                                <el-input v-model="formData.size"/>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="24">
-                                            <el-form-item label="上传图片">
-                                                <el-upload
-                                                        class="avatar-uploader"
-                                                        action="/contract/upload.do"
-                                                        :auto-upload="autoUpload"
-                                                        name="imgFile"
-                                                        :show-file-list="false"
-                                                        :on-success="handleAvatarSuccess"
-                                                        :before-upload="beforeAvatarUpload">
-                                                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                </el-upload>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="24">
-                                            <el-form-item label="说明">
-                                                <el-input v-model="formData.remark" type="textarea"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
 
-                                </el-form>
-                            </el-tab-pane>
-                            <el-tab-pane label="品类组信息" name="second">
-                                <div class="checkScrol">
-                                    <table class="datatable">
-                                        <!--单选插件-->
-                                        <template>
-                                            <el-table
-                                                    ref="singleTable"
-                                                    :data="tableData"
-                                                    highlight-current-row
-                                                    @current-change="handleCurrentChangeRedis"
-                                                    style="width: 100%">
-                                                <el-table-column
-                                                        label="序号"
-                                                        type="index"
-                                                        width="50">
-                                                </el-table-column>
-                                                <el-table-column
-                                                        property="phoneNumber"
-
-                                                        label="手机号"
-                                                        width="">
-                                                </el-table-column>
-                                                <el-table-column
-                                                        property="name"
-                                                        prop="name"
-                                                        label="姓名"
-                                                        width="">
-                                                </el-table-column>
-
-                                            </el-table>
-                                            <div style="margin-top: 20px">
-
-                                                <el-button @click="setCurrent()">取消选择</el-button>
-                                            </div>
-                                        </template>
-
-                                    </table>
-                                </div>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </template>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="dialogFormVisible = false">取消</el-button>
-                        <el-button type="primary" @click="handleAdd()">确定</el-button>
-                    </div>
-                </el-dialog>
-            </div>
             <!-- 编辑标签弹层 -->
-            <div class="add-form">
-                <el-dialog title="编辑套餐" :visible.sync="dialogFormVisible4Edit">
-                    <template>
-                        <el-tabs v-model="activeName" type="card">
-                            <el-tab-pane label="基本信息" name="first">
-                                <el-form label-position="right" label-width="100px">
-                                    <el-row>
-                                        <!--                                                <el-col :span="12">-->
-                                        <!--                                                    <el-form-item label="编码">-->
-                                        <!--                                                        <el-input v-model="formData.code"/>-->
-                                        <!--                                                    </el-form-item>-->
-                                        <!--                                                </el-col>-->
-                                        <el-col :span="12">
-                                            <el-form-item label="名称">
-                                                <el-input v-model="formData.name"/>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="12">
-                                            <el-form-item label="位置">
-                                                <el-input v-model="formData.location"/>
-                                            </el-form-item>
-                                        </el-col>
-                                        <el-col :span="12">
-                                            <el-form-item label="大小">
-                                                <el-input v-model="formData.size"/>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="24">
-                                            <el-form-item label="上传图片">
-                                                <el-upload
-                                                        class="avatar-uploader"
-                                                        action="/contract/upload.do"
-                                                        :auto-upload="autoUpload"
-                                                        name="imgFile"
-                                                        :show-file-list="false"
-                                                        :on-success="handleAvatarSuccess"
-                                                        :before-upload="beforeAvatarUpload">
-                                                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                </el-upload>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
-                                    <el-row>
-                                        <el-col :span="24">
-                                            <el-form-item label="说明">
-                                                <el-input v-model="formData.remark" type="textarea"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
 
-                                </el-form>
-                            </el-tab-pane>
-                            <el-tab-pane label="品类组信息" name="second">
-                                <div class="checkScrol">
-                                    <table class="datatable">
-                                        <!--单选插件-->
-                                        <template>
-                                            <el-table
-                                                    ref="singleTable"
-                                                    :data="tableData"
-                                                    highlight-current-row
-                                                    @current-change="handleCurrentChangeRedis"
-                                                    style="width: 100%">
-                                                <el-table-column
-                                                        label="序号"
-                                                        type="index"
-                                                        width="50">
-                                                </el-table-column>
-
-                                                <el-table-column
-                                                        property="phoneNumber"
-
-                                                        label="手机号"
-                                                        width="">
-                                                </el-table-column>
-                                                <el-table-column
-                                                        property="name"
-                                                        prop="name"
-                                                        label="姓名"
-                                                        width="">
-                                                </el-table-column>
-
-                                            </el-table>
-                                            <div style="margin-top: 20px">
-                                                <el-button @click="setCurrent(tableData[tableData.length-1])">到最后一个行</el-button>
-
-                                                <el-button @click="setCurrent()">取消选择</el-button>
-                                            </div>
-                                        </template>
-
-                                    </table>
-                                </div>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </template>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="dialogFormVisible4Edit = false">取消</el-button>
-                        <el-button type="primary" @click="handleEdit()">确定</el-button>
-                    </div>
-                </el-dialog>
-            </div>
         </div>
     </div>
 </div>
@@ -344,7 +136,7 @@
         data:{
             autoUpload:true,//自动上传
             imageUrl:null,//模型数据，用于上传图片完成后图片预览
-            activeName:'first',//添加/编辑窗口Tab标签名称
+
             pagination: {//分页相关属性
                 currentPage: 1,
                 pageSize:5,
@@ -357,8 +149,7 @@
             formData: {},//表单数据
             tableData:[],//添加表单窗口中品类组列表数据
             memberId:0,//添加表单窗口中品类组复选框对应id
-            dialogFormVisible: false,//控制添加窗口显示/隐藏
-            dialogFormVisible4Edit: false, // 控制编辑窗口显示/隐藏
+
             domain:'',
             //选择用户时返回的
             currentRow: null
@@ -422,7 +213,7 @@
                 this.pagination.currentPage = currentPage;
                 this.findPage();
             },
-            // 弹出编辑窗口
+            // 跳转编辑窗口
             handleUpdate(row) {
 
 

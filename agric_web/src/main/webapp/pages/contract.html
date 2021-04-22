@@ -89,7 +89,7 @@
                         <el-table-column type="index" align="left" width="60" label="序号"></el-table-column>
                         <el-table-column prop="name" label="合同名字" width="80" align="left"></el-table-column>
                         <el-table-column prop="location" label="位置" width="80" align="left"></el-table-column>
-                        <el-table-column prop="size" label="大小" width="80" align="left"></el-table-column>
+                        <el-table-column prop="size" label="大小" width="80" align="left">亩</el-table-column>
                         <el-table-column   label="合同照片" width="200" align="left">
                             <template slot-scope="scope">
                                 <div class="demo-image__preview">
@@ -180,7 +180,7 @@
 
                                         </el-form>
                                     </el-tab-pane>
-                                    <el-tab-pane label="品类组信息" name="second">
+                                    <el-tab-pane label="土地合同所有者信息" name="second">
 										<div class="checkScrol">
 											<table class="datatable">
                                                 <!--单选插件-->
@@ -285,7 +285,7 @@
 
                                         </el-form>
                                     </el-tab-pane>
-                                    <el-tab-pane label="品类组信息" name="second">
+                                    <el-tab-pane label="土地合同所有者信息" name="second">
                                         <div class="checkScrol">
                                             <table class="datatable">
                                                 <!--单选插件-->
@@ -356,8 +356,8 @@
 
                 dataList: [],//列表数据
                 formData: {},//表单数据
-                tableData:[],//添加表单窗口中品类组列表数据
-                memberId:0,//添加表单窗口中品类组复选框对应id
+                tableData:[],//添加表单窗口中土地合同所有者列表数据
+                memberId:0,//添加表单窗口中土地合同所有者复选框对应id
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
                 dialogFormVisible4Edit: false, // 控制编辑窗口显示/隐藏
                 domain:'',
@@ -444,7 +444,7 @@
                     this.resetForm();
                     // 弹出添加窗口
                     this.dialogFormVisible=true;
-                    // 获取品类组列表数据
+                    // 获取土地合同所有者列表数据
                     axios.post("/member/findAll.do").then(res=>{
                         if (res.data.flag){
                             this.tableData=res.data.data;
@@ -476,21 +476,29 @@
                             // this.domain = res.data.data.domain;
                             // 图片的完整路径
                             this.imageUrl = this.domain+ this.formData.img;
-                            // 获取品类组列表数据
+                            // 获取土地合同所有者列表数据
                             axios.post("/member/findAll.do").then(res1 => {
                                 if(res1.data.flag){
                                     this.tableData = res1.data.data;
-                                    //根据id查找用户被选中的项
-                                    axios.post("/member/findById.do?id="+this.formData.memberId).then(res=>{
-                                        if (res.data.flag){
-                                            //设置默认选中
-                                            this.setCurrent(res.data.data);
-                                        }else {
-                                            //失败
-                                            this.$message.error(res.data.message);
+                                    //设置单选框默认选中
+                                    if (this.tableData!=[]){
+                                        for (var i=0;i<this.tableData.length;i++){
+                                            if (this.tableData[i].id==this.formData.memberId){
+                                                this.setCurrent(this.tableData[i])
+                                            }
                                         }
-
-                                    })
+                                    }
+                                    //根据id查找用户被选中的项
+                                    // axios.post("/member/findById.do?id="+this.formData.memberId).then(res=>{
+                                    //     if (res.data.flag){
+                                    //         //设置默认选中
+                                    //         this.setCurrent(res.data.data);
+                                    //     }else {
+                                    //         //失败
+                                    //         this.$message.error(res.data.message);
+                                    //     }
+                                    //
+                                    // })
 
 
                                 }else{

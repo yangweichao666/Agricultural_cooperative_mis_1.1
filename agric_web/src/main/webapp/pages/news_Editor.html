@@ -114,6 +114,9 @@
                 </el-form-item>
             </el-col>
         </el-form-item>
+        <el-form-item label="新闻概要" prop="outline">
+            <el-input v-model="ruleForm.outline"></el-input>
+        </el-form-item>
         <el-row>
             <el-col :span="24">
                 <el-form-item label="封面图片">
@@ -165,7 +168,7 @@
             //表单数据
             ruleForm: {
                 title: '',
-
+                outline:'',
                 date1: '',
                 date2: '',
 
@@ -242,7 +245,7 @@
                 //表示今行编辑
                 this.judge=1;
                 //添加标题
-                document.getElementById("id1").style.visibility="visible";
+                // document.getElementById("id1").style.visibility="visible";
 
 
             }else {
@@ -251,11 +254,11 @@
                 // this.context=this.get()
 
 
-                if($("#id1")){
-                    $("#id1").hide();
-                    //添加标题
-                    // document.getElementById("id1").style.visibility="visible";//添加标题
-                }
+                // if($("#id1")){
+                //     $("#id1").hide();
+                //     //添加标题
+                //     // document.getElementById("id1").style.visibility="visible";//添加标题
+                // }
 
             }
 
@@ -305,12 +308,21 @@
                 this.context=this.get();
                 // console.log("_time1:"+date)
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {
+                    this.formData={
+                        'id':this.id,
+                        "title":this.ruleForm.title,
+                        "date":date,
+                        "img":this.img,
+                        "context":this.context,
+                        "outline":this.ruleForm.outline
 
-                        this.formData.img=this.img
+                    }
+                    if (valid) {
+                        //添加编辑的id
+                        this.formData.id=this.dataJson.id;
                         console.log(this.formData);
                         if(this.judge==1){
-                            this.context=this.formData.context;
+
 
                             //为编辑
                             this.newsEditor(this.formData)
@@ -319,16 +331,9 @@
 
 
                         }else {
-                            var data={
-                                'id':this.id,
-                                "title":this.ruleForm.title,
-                                "date":date,
-                                "img":this.img,
-                                "context":this.context
 
-                            }
                             //为添加
-                            this.newsAdd(data);
+                            this.newsAdd(formData);
 
 
                         }
@@ -379,6 +384,7 @@
                         // 表单数据
                         this.formData = res.data.data;
                         this.ruleForm.title=this.formData.title;
+                        this.ruleForm.outline=this.formData.outline
                         addcontext=this.formData.context;
 
 

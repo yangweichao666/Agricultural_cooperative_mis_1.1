@@ -14,6 +14,7 @@ public class News implements Serializable {
 	private String context;//内容
 	private String img;//封面
 	private Date date;//时间
+	private String outline;//内容概要
 
 	public void setId(Integer id){
 		this.id=id;
@@ -44,6 +45,14 @@ public class News implements Serializable {
 	}
 	public Date getDate(){
 		return date;
+	}
+
+	public String getOutline() {
+		return outline;
+	}
+
+	public void setOutline(String outline) {
+		this.outline = outline;
 	}
 }
 

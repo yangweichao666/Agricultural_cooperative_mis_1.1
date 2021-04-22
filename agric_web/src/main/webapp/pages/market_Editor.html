@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+
+        .datatable {
+            position: relative;
+            box-sizing: border-box;
+            -webkit-box-flex: 1;
+            width: 100%;
+            max-width: 100%;
+            font-size: 14px;
+            color: rgb(96, 98, 102);
+            overflow: hidden;
+            flex: 1 1 0%;
+        }
+
+        .datatable td, .datatable th {
+            padding: 12px 0;
+            min-width: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            position: relative;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+<!-- 引入 wangEditor.min.js -->
+<!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+
+
+<!-- 引入组件库 -->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script>
+    // var id=getUrlParam("marketId")
+
+
+</script>
+<body class="hold-transition">
+  <div class="content-header">
+    <h1>工作台<small>产品编辑</small></h1>
+    <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>网站编辑</el-breadcrumb-item>
+        <el-breadcrumb-item>产品编辑</el-breadcrumb-item>
+
+    </el-breadcrumb>
+  </div>
+  <div class="app-container">
+      <div class="box">
+
+  <div id="app">
+      <h2 id="if1" >
+          {{ this.judge ? ' 请进行编辑产品信息：' : '请进行发布产品信息：' }}
+      </h2>
+
+
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="产品标题" prop="title">
+            <el-input v-model="ruleForm.title"></el-input>
+        </el-form-item>
+
+
+        <el-form-item label="时间" required>
+            <el-col :span="11">
+                <el-form-item prop="date1">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1"
+                                    style="width: 100%;"></el-date-picker>
+                </el-form-item>
+            </el-col>
+            <el-col class="line" :span="2">--</el-col>
+            <el-col :span="11">
+                <el-form-item prop="date2">
+                    <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+                </el-form-item>
+            </el-col>
+        </el-form-item>
+        <el-form-item label="产品概要" prop="outline">
+            <el-input v-model="ruleForm.outline"></el-input>
+        </el-form-item>
+        <el-row>
+            <el-col :span="24">
+                <el-form-item label="封面图片">
+                    <el-upload
+                            class="avatar-uploader"
+                            action="/contract/upload.do"
+                            :auto-upload="autoUpload"
+                            name="imgFile"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+            </el-col>
+        </el-row>
+
+        <el-form-itme >
+
+            <el-row style="width: 50% ;margin-left: 10%">
+                <h3>请选择所要发布的合作社产品：</h3>
+                <el-col :span="24" >
+            <!--单选插件-->
+            <template >
+                <el-table
+                        ref="singleTable"
+                        :data="tableData"
+                        highlight-current-row
+                        @current-change="handleCurrentChangeRedis"
+                        style="width: 100%">
+                    <el-table-column
+                            label="序号"
+                            type="index"
+                            width="50">
+                    </el-table-column>
+                    <el-table-column
+                            property="code"
+                            label="助记码"
+                            width="">
+                    </el-table-column>
+                    <el-table-column
+                            property="name"
+                            label="名称"
+                            width="">
+                    </el-table-column>
+                </el-table>
+                <div style="margin-top: 20px">
+                    <el-button @click="setCurrent(currentRow)">选中第二行</el-button>
+                    <el-button @click="setCurrent()">取消选择</el-button>
+                </div>
+            </template>
+                </el-col>
+            </el-row>
+        </el-form-itme>
+        <el-form-item>
+            <div class="form-group">
+                <input name="editor_content" id="editor_content" autocomplete="off" class="layui-input" type="hidden">
+                <label class="col-sm-3 control-label">文字内容：</label>
+                <div class="col-sm-8" id="editor">
+                    <!--<p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>-->
+                </div>
+            </div>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+    </el-form>
+
+<!--    <input type="button" value="显示" @click="get()">-->
+</div>
+      </div>
+  </div>
+</body>
+
+<script>
+   var addcontext='';
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            autoUpload: true,//自动上传
+            imageUrl: null,//模型数据，用于上传图片完成后图片预览
+            //上一个页面传来的数据
+            dataJson:{},
+            img:'',
+            //表单数据
+            ruleForm: {
+                title: '',
+                outline:'',
+                date1: '',
+                date2: '',
+
+
+            },
+            //根据 查询到的所有的项
+            tableData:[],
+            domain:"",
+            //判断是否是编辑 0为默认 添加 1为编辑
+            judge:0,
+            //根据id查询到的market集合
+            formData:{},
+            //被选中的项
+            currentRow:null,
+            //被选中的id
+            itmeId:null,
+
+
+
+            rules: {
+                title: [
+                    {required: true, message: '请输入活动名称', trigger: 'blur'},
+                    {min: 3, max: 30, message: '长度在 3 到 30 个字符', trigger: 'blur'}
+                ],
+
+                date1: [
+                    {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
+                ],
+                date2: [
+                    {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
+                ],
+
+            },
+        },
+        //注册组件
+        components: {
+
+        },
+        //钩子函数
+        created(){
+            //开始在进行页面之间传值
+
+             var str = window.location.search;  //获取链接中传递的参数
+              var  orderData = str.substring(str.indexOf("=")+1);//?orderData={"roomNum":"210","orderDay":"TODAY","orderTime":["10301100","11001140"]}
+            // 初始化
+            this.judge=0;
+            this.findAllItem()
+            //true代表以传来值 //进行编辑
+            if(orderData.length!=0){
+                var reg = new RegExp("%22","g");
+                this.dataJson = $.parseJSON(orderData.replace(reg,"\"")) ;
+
+                this.findByid(this.dataJson.id);
+                console.log(this.dataJson)
+                //结束
+                // this.ruleForm.title=this.dataJson.title
+                console.log(this.dataJson.date)
+                //转换为date类型
+                // 2021-04-28%2011:38:12  转换为 2021-04-28 11:38:12
+                var date = this.dataJson.date;
+                date = date.replace('%20',' ');
+                date = date.substring(0,19);
+                date = date.replace(/-/g,'/');
+                // 转换为date对象
+                // var timestamp = new Date(date).getTime();
+                // 根据毫秒数构建 Date 对象
+                var date = new Date(date);
+                // 格式化日期
+
+                console.log(date)
+                this.ruleForm.date1=date
+                // alert(this.ruleForm.date1)
+                this.ruleForm.date2=date
+                // this.dataJson.date.substr(13,12)
+                // console.log(this.ruleForm.date2);
+
+
+
+                // this.id=this.dataJson.id;
+                this.domain=this.dataJson.domain;
+                this.img=this.dataJson.img;
+                this.imageUrl=this.domain+this.img;
+
+                //改为请求
+
+
+
+                //表示今行编辑
+                this.judge=1;
+                //添加标题
+                // document.getElementById("id1").style.visibility="visible";
+
+
+            }else {
+               // 代表没传值
+                this.judge=0
+                // this.context=this.get()
+             
+
+
+                // if($("#id1")){
+                //     $("#id1").hide();
+                //     //添加标题
+                //     // document.getElementById("id1").style.visibility="visible";//添加标题
+                // }
+
+            }
+
+
+
+
+        },
+        methods: {
+            //拼接时间日期+时分
+            getdate(formName){
+                //拼接时间
+                // 转换为date对象
+                var timestamp1 = new Date(formName.date1).getTime();
+                // 根据毫秒数构建 Date 对象
+                var date1 = new Date(timestamp1)
+                // 转换为date对象
+                var timestamp2 = new Date(formName.date2).getTime();
+                // 根据毫秒数构建 Date 对象
+                var date2 = new Date(timestamp2)
+
+                var seperator1 = "-";
+                var seperator2 = ":";
+                var month = date1.getMonth() + 1;
+
+                var strDate = date1.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+
+                var currentdate = date1.getFullYear() + seperator1 + month + seperator1 + strDate
+                    + " " + date2.getHours() + seperator2 + date2.getMinutes()
+                    + seperator2 + date2.getSeconds();
+
+                return  new Date(currentdate)
+                // 根据毫秒数构建 Date 对象
+            },
+            findAllItem(){
+                //发送请求获取所有的检查项
+                axios.get("/checkitem/findAll.do").then(res=>{
+                    if (res.data.flag){
+                        this.tableData=res.data.data.rows
+                        console.log("查询所有检查项成功！")
+                    }else {
+                        //查询失败
+                        this.$message({
+                            type:"error",
+                            message:response.data.message,
+                            showClose:true
+                        })
+                    }
+                })
+            },
+
+            //formName 只能用于表单校验
+            submitForm(formName) {
+                //获取拼接的时间
+                // elementui 的 @click="submitForm('ruleForm')">提交参数含有单引号而 js识别不了所以 直接用this.ruleFrom
+                var date=this.getdate(this.ruleForm)
+                console.log("tim:"+date)
+                this.context=this.get();
+                // console.log("_time1:"+date)
+                this.$refs[formName].validate((valid) => {
+                    this.formData={
+                        'id':this.id,
+                        "title":this.ruleForm.title,
+                        "date":date,
+                        "img":this.img,
+                        "context":this.context,
+                        "outline":this.ruleForm.outline,
+                        "itemId":this.itmeId
+
+                    }
+                    if (valid) {
+                        //添加编辑的id
+                        this.formData.id=this.dataJson.id;
+                        console.log(this.formData);
+                        if(this.judge==1){
+                            //为编辑
+                            this.marketEditor(this.formData)
+
+                        }else {
+                   //为添加
+                            this.marketAdd(this.formData);
+                        }
+                    } else {
+                        console.log('error submit!!');
+                        console.log(this.ruleForm)
+                        return false;
+                    }
+                });
+            },
+
+            //formName 重置表单 只能用于表单校验
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
+            handleAvatarSuccess(res, file) {
+                if (res.flag) {
+                    // 回显图片
+
+                    this.imageUrl = res.data.domain + res.data.imgName;
+                    // 补充formData中的img值，
+                    this.img = res.data.imgName;
+                } else {
+                    this.$message.error(res.data.message);
+                }
+            },
+            //上传图片之前执行
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isJPG) {
+                    this.$message.error('上传套餐图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传套餐图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            //获取编辑的内容
+            get() {
+                var a = editor.txt.html();
+                return a;
+            },
+            //根据id查询商品信息
+            findByid(id) {
+                axios.post('/market/findById.do?id='+id).then(res => {
+                    if (res.data.flag) {
+                        // 表单数据
+                        this.formData = res.data.data;
+                        this.ruleForm.title=this.formData.title;
+                        this.ruleForm.outline=this.formData.outline
+                        addcontext=this.formData.context;
+                        //设置单选框默认选中
+                        if (this.tableData!=[]){
+                            for (var i=0;i<this.tableData.length;i++){
+                                if (this.tableData[i].id==this.formData.itemId){
+                                    this.setCurrent(this.tableData[i])
+                                }
+                            }
+                        }
+
+
+                        editor.txt.html(addcontext);
+
+
+                    }
+                    this.$message({
+                                   message: res.data.message,
+                                   type: res.data.flag?"success":"error"
+                                  });
+                })
+            },
+            //设置选中第几行
+            setCurrent(row) {
+                this.$refs.singleTable.setCurrentRow(row);
+            },
+            //当改变时返回内容 相当于选中
+            handleCurrentChangeRedis(val) {
+                //返回的是一个map 选中的项的内容
+                this.currentRow = val;
+                if (this.currentRow!=null){
+                    this.itmeId=this.currentRow.id;
+                }
+            },
+            //修改
+            marketEditor(dataFrom) {
+                axios.post("/market/update.do",dataFrom).then(res=>{
+
+                    if (res.data.flag){
+
+                        alert("修改成功")
+                        //跳转到market页面
+                        window.location.href='market.html';
+                    }
+                    this.$message({
+                        message: res.data.message,
+                        type: res.data.flag?"success":"error"
+                    });
+                })
+            },
+            //添加
+            marketAdd(dataFrom) {
+                axios.post("/market/add.do",dataFrom).then(res=>{
+                    this.$message({
+                        message: res.data.message,
+                        type: res.data.flag?"success":"error"
+                    });
+                    if (res.data.flag){
+
+                        //跳转到market页面
+                        //在页面上弹出对话框
+                        if(!confirm("您是否要继续添加？")){
+                            window.location.href='market.html';
+                        }
+                          /**/  // window.location.href='market.html';
+
+
+                    }
+                })
+            }
+        }
+    })
+    /*
+    * 富文本编辑器*/
+</script>
+<script type="text/javascript">
+    var editor;
+
+    var E = window.wangEditor
+    editor = new E('#editor') // 隐藏“网络图片”tab
+    editor.config.showLinkImg = false
+    // 或者 var editor = new E( document.getElementById('editor') )
+    //editor.config.qiniu = true
+    // 通过 url 参数配置 debug 模式。url 中带有 wangeditor_debug_mode=1 才会开启 debug 模式
+    editor.config.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0
+    editor.config.uploadImgServer = '/backstage/payauto/editor.do';
+    editor.config.uploadFileName = 'multiple'; //与后台获取文件名相同
+    editor.config.linkImgCallback = function (url) {
+        console.log(url) // url 即插入图片的地址
+    }
+    editor.create()
+    //添加内容
+    editor.txt.html(addcontext);
+
+
+</script>
+
+
+</html>

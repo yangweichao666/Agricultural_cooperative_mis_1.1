@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!--引入的约束-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywc.agric.dao.MarketDao">
+<!--    添加-->
+    <insert id="add"  parameterType="com.ywc.agric.pojo.Market">
+       insert into t_market(
+title,
+context,
+img,outline,
+date,itemId) value(#{title},
+#{context},
+#{img},#{outline},
+#{date},#{itemId})
+    </insert>
+
+    <delete id="delete" parameterType="integer">
+        delete from t_market where id=#{id}
+    </delete>
+
+    <!--动态 SQL 之where标签 （不能单独使用必须和if一起使用）-->
+    <select id="findPage" resultType="com.ywc.agric.pojo.Market" parameterType="String">
+        SELECT
+        *,(select count(1) from  t_market_message  where market_id=m.id) as messageNumber
+        FROM
+        t_market m
+
+            <if test="value !=null and value.length > 0">
+                WHERE   title like #{value} or date like #{value}
+            </if>
+    </select>
+    <!--自定义映射规则-->
+    <resultMap id="marketMap" type="com.ywc.agric.pojo.Market">
+        <id property="id" column="id"/>
+        <result property="title"  column="title"/>
+        <result property="outline"  column="outline"/>
+        <result property="date"  column="date"/>
+        <result property="img"  column="img"/>
+        <result property="itemId"  column="itemId"/>
+        <result property="context"  column="context"/>
+        <collection property="messages" ofType="com.ywc.agric.pojo.Message">
+            <id property="id" column="message_id"/>
+            <result property="title"  column="message_title"/>
+            <result property="name"  column="name"/>
+            <result property="content"  column="content"/>
+            <result property="phone"  column="phone"/>
+            <result property="weixin"  column="weixin"/>
+            <result property="date"  column="date"/>
+        </collection>
+    </resultMap>
+
+    <!--修改-->
+    <update id="update" parameterType="com.ywc.agric.pojo.Market">
+         update t_market set  title=#{title},
+context=#{context},
+img=#{img},
+outline=#{outline},
+date=#{date},itemId=#{itemId} where id=#{id}
+
+    </update>
+    <select id="findById" resultType="com.ywc.agric.pojo.Market" parameterType="integer">
+        SELECT
+        *
+        FROM
+        t_market
+        WHERE
+        id=#{id}
+
+    </select>
+
+    <select id="findImgs" resultType="java.lang.String">
+
+    </select>
+    <select id="findNewFive" resultType="com.ywc.agric.pojo.Market">
+          select * from t_market  limit 0,5
+    </select>
+</mapper>
