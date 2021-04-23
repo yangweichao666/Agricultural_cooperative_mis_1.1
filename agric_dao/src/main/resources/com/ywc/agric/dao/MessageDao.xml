@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!--引入的约束-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ywc.agric.dao.MessageDao">
+
+
+    <insert id="addMe" parameterType="com.ywc.agric.pojo.Message">
+        insert into message(title,
+        name,
+        content,
+        phone,
+        weixin,
+        date) value(#{title},
+        #{name},
+        #{content},
+        #{phone},
+        #{weixin},
+        #{date})
+        <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="integer">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+    <insert id="addMM" parameterType="integer">
+        insert into t_market_message value (#{param1},#{param2})
+    </insert>
+</mapper>

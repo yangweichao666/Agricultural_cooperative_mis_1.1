@@ -120,12 +120,13 @@
 					<div class="agile-blog-grid" >
 						<div v-html="formData.context" id="img-1" STYLE="overflow:hidden"></div>
 						<div class="opinion">
-							<h3>留下你的评论：</h3>
-							<form action="#" method="post">
-								<input type="text" name="Name" placeholder="Name" required="">
-								<input type="email" name="Email" placeholder="Email" required="">
-								<textarea name="Message" placeholder="Message" required=""></textarea>
-								<input type="submit" value="SEND">
+							<h3>咨询&留言：</h3>
+							<form >
+								<input type="text" name="Name"   v-model="message.name" placeholder="Name" required="" >
+								<input type="text" name="Phone"   v-model="message.phone" placeholder="微信号" required="">
+								<input type="text" name="title"   v-model="message.title" placeholder="标题" required="">
+								<textarea name="Message" placeholder="Message"   v-model="message.content" required=""></textarea>
+								<input type="button" value="发送" @click="sendMessage()"><br>
 							</form>
 						</div>
 					</div>
@@ -258,6 +259,7 @@
 				queryString:null,
 
 			},
+			message:{},
 			formData:{},
 			tableData2: [{
 				msg: '校内天梯选拔赛开始报名啦！',
@@ -315,14 +317,20 @@
 						type: res.data.flag?"success":"error"
 					});
 				})
-
-
-
 		},
-			sendMessage(id){
-				axios.post('/message/add.do?')
-			}
-		}
+			sendMessage(){
+				axios.post('/message/add.do?id='+id,this.message).then(res=>{
+					if (res.data.flag){
+
+					}
+						this.$message({
+							message: res.data.message,
+							type: res.data.flag?"success":"error"
+						});
+				})
+				}
+
+			},
 
 
 
