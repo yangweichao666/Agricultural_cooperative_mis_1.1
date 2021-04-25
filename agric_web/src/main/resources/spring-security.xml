@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd">
-    <!--1.静态资源-->
+    <!--1.静态资源&及查询发送消息-->
     <security:http pattern="/css/**" security="none"/>
     <security:http pattern="/img/**" security="none"/>
     <security:http pattern="/js/**" security="none"/>
@@ -14,6 +14,8 @@
     <security:http pattern="/login.html" security="none"/>
     <security:http pattern="/fail.html" security="none"/>
     <security:http pattern="/agricOfficial_1.0/**" security="none"/>
+    <security:http pattern="/message/**" security="none"/>
+
     <!--设置业务不拦截-->
     <security:http pattern="/news/find**" security="none"/>
     <security:http pattern="/market/find**" security="none"/>

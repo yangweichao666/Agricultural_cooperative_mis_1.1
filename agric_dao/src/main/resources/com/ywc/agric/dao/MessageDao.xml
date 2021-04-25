@@ -24,4 +24,10 @@
     <insert id="addMM" parameterType="integer">
         insert into t_market_message value (#{param1},#{param2})
     </insert>
+    <select id="findPage" resultType="com.ywc.agric.pojo.Message" parameterType="integer">
+        SELECT m.* FROM message m,t_market_message mm WHERE m.id=mm.message_id
+        <if test="id !=null ">
+          and mm.market_id=#{id}
+        </if>
+    </select>
 </mapper>

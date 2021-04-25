@@ -1,5 +1,7 @@
 package com.ywc.agric.service;
 
+import com.ywc.agric.entity.PageResult;
+import com.ywc.agric.entity.QueryPageBean;
 import com.ywc.agric.pojo.Message;
 
 /**
@@ -13,4 +15,12 @@ public interface MessageService {
      * @param message 消息
      */
     void add(Integer id, Message message);
+
+    PageResult<Message> findPage(QueryPageBean queryPageBean);
+
+    /**
+     * 单独添加留言
+     * @param message
+     */
+    void add(Message message);
 }

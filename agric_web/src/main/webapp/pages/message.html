@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 页面meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>农业合作社信息系统</title>
+        <meta name="description" content="农业合作社信息系统">
+        <meta name="keywords" content="农业合作社信息系统">
+        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+        <!-- 引入样式 -->
+        <link rel="stylesheet" href="../plugins/elementui/index.css">
+        <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body class="hold-transition">
+    <script>
+        var Ohref=window.location.href;
+        var arrhref=Ohref.split("?id=");
+        var id=null;
+        id= arrhref[1];
+        // alert(id)
+    </script>
+        <div id="app">
+            <div class="content-header">
+                <h1>工作台<small>消息项管理</small></h1>
+                <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item>工作台</el-breadcrumb-item>
+                    <el-breadcrumb-item>消息项管理</el-breadcrumb-item>
+                </el-breadcrumb>
+            </div>
+            <div class="app-container">
+                <div class="box">
+                    <div class="filter-container">
+
+
+                        <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
+                    </div>
+                    <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+                        <el-table-column type="index" align="center" label="序号"></el-table-column>
+                        <el-table-column prop="title" label="标题" align="center"></el-table-column>
+                        <el-table-column prop="name" label="发消息人" align="center"></el-table-column>
+                        <el-table-column prop="phone" label="phone" align="center"></el-table-column>
+                        <el-table-column prop="weixin" label="微信号" align="center"></el-table-column>
+                        <el-table-column prop="content" label="内容" align="center"></el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+  <!--    分页插件
+ current-change: 当页码变化时触发
+ current-page: 当前页码
+ page-size: 每页大小
+ layout: 分页工具栏的视图：是否显示总页数total, prev上一页,pager页码, next下一页,jumper跳转
+ total: 总记录数
+-->
+                    <div class="pagination-container">
+                        <el-pagination
+                            class="pagiantion"
+                            @current-change="handleCurrentChange"
+                            :current-page="pagination.currentPage"
+                            :page-size="pagination.pageSize"
+                            layout="total, prev, pager, next, jumper"
+                            :total="pagination.total">
+                        </el-pagination>
+                    </div>
+                    <!-- 新增标签弹层 -->
+
+                    <!-- 编辑标签弹层 -->
+                    <div class="add-form">
+                        <el-dialog title="编辑消息项" :visible.sync="dialogFormVisible4Edit">
+                            <el-form ref="dataEditForm" :model="formData"  label-position="right" label-width="100px">
+
+
+                            </el-form>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogFormVisible4Edit = false">取消</el-button>
+                                <el-button type="primary" @click="handleEdit()">确定</el-button>
+                            </div>
+                        </el-dialog>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!-- 引入组件库 -->
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script>
+        var vue = new Vue({
+            el: '#app',
+            data:{
+                pagination: {//分页相关模型数据
+					  currentPage: 1,//当前页码
+					  pageSize:10,//每页显示的记录数
+					  total:0,//总记录数
+					  queryString:null//查询条件
+				},
+				dataList: [],//当前页要展示的分页列表数据
+                dialogFormVisible4Edit:false,//编辑表单是否可见
+                formData:{}
+
+            },
+            //钩子函数，VUE对象初始化完成后自动执行
+            created() {
+                //根据商品的id查询消息
+                if (id!=null){
+                    this.pagination.queryString=id;
+                }
+                    this.findPage();
+
+
+
+
+
+            },
+
+            methods: {
+                //编辑
+                handleEdit() {
+                    this.$refs["dataEditForm"].validate((valid) => {
+                        if (valid) {
+                            // alert('校验通过');
+                            axios.post("/checkitem/update.do",this.formData).then( (response)=>{
+
+                                if (response.data.flag){
+                                    //成功
+                                    this.$message({
+                                        type:"success",
+                                        message:response.data.message,
+                                        showClose:true
+                                    })
+                                    //提交成功后隐藏提交表单窗口
+                                    this.dialogFormVisible4Edit=false;
+                                    this.findPage();
+
+
+                                }
+                                else {
+                                    //编辑失败
+                                    this.$message({
+                                        type:"error",
+                                        message:response.data.message,
+                                        showClose:true
+                                    })
+                                }
+                            })
+
+                        } else {
+                            console.log('表单提交失败');
+                            return false;
+                        }
+                    });
+                },
+
+                //分页查询
+                findPage() {
+                    axios.post("/message/findPage.do",this.pagination).then((res)=>{
+                        // res.data=>result
+                        if (res.data.flag){
+                            //成功返回记录数组
+                            this.dataList = res.data.data.rows;
+                            this.pagination.total=res.data.data.total;
+                        }else {
+                            //查询失败
+                            this.$message({
+                                type:"error",
+                                message:res.data.message,
+                                showClose:true
+                            })
+                        }
+                    })
+                },
+
+
+                // 弹出编辑窗口
+                handleUpdate(row) {
+                    this.resetForm();
+                    this.findById(row.id);
+                    this.dialogFormVisible4Edit=true;
+
+                },
+                //通过id查询消息项信息
+                findById(id){
+                    axios.post("/checkitem/findById.do?id="+id).then((res)=>{
+                        // res.data=>result
+                        if (res.data.flag){
+                            //成功查询到的返回记录
+                            this.formData = res.data.data;
+
+                        }else {
+                            //查询失败
+                            this.$message({
+                                type:"error",
+                                message:res.data.message,
+                                showClose:true
+                            })
+                        }
+                    })
+
+                },
+                //切换页码
+                handleCurrentChange(currentPage) {
+                    this.pagination.currentPage=currentPage
+                    this.findPage();
+                },
+                // 删除
+                handleDelete(row) {
+                    var id=row.id;
+                    console.log(id)
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.post("/checkitem/delete.do?id="+id).then(res=>{
+
+                            if (res.data.flag){
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+
+                                this.findPage();
+                            }else{
+                                //查询失败
+                                this.$message({
+                                	type:"error",
+                                	message:res.data.message,
+                                	showClose:true
+                                })
+
+                            }
+
+                        })
+
+
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                }
+            }
+        })
+    </script>
+</html>

@@ -15,6 +15,11 @@ public class PageResult<T> implements Serializable{
         this.total = total;
         this.rows = rows;
     }
+
+    public PageResult() {
+
+    }
+
     public Long getTotal() {
         return total;
     }

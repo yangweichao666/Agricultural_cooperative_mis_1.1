@@ -108,7 +108,7 @@
                 </el-table-column>
                 <el-table-column label="操作" width="270" align="left">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">消息</el-button>
+                        <el-button type="primary" size="mini" @click="handleMessage(scope.row)">消息</el-button>
                         <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
                         <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
                     </template>
@@ -215,6 +215,10 @@
             handleCurrentChange(currentPage) {
                 this.pagination.currentPage = currentPage;
                 this.findPage();
+            },
+            //查看消息
+            handleMessage(row){
+                window.location.href="message.html?id="+row.id
             },
             // 跳转编辑窗口
             handleUpdate(row) {
