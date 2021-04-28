@@ -9,7 +9,13 @@
         http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- 指定应用名称 -->
-    <dubbo:application name="agric_web" />
+    <!--意，从2.6.4/2.7.0开始，qosAcceptForeignIp默认配置改为false（拒绝远端主机发出的命令，只允许服务本机执行），
+    如果qosAcceptForeignIp设置为true，有可能带来安全风险，请仔细评估后再打开。-->
+    <dubbo:application name="agric_web" >
+        <dubbo:parameter key="qos.enable" value="true" />
+        <dubbo:parameter key="qos.accept.foreign.ip" value="true" />
+        <dubbo:parameter key="qos.port" value="33333" />
+    </dubbo:application>
     <!--指定服务注册中心地址-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 

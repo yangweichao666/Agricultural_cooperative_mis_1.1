@@ -1,18 +1,16 @@
 package com.ywc.agric.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
+
 
 import com.ywc.agric.entity.Editor;
 import com.ywc.agric.util.QiNiuUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +23,7 @@ public class PayautoController {
 
     @RequestMapping("upload")
     @ResponseBody
-    public Map<String, String> upload(@RequestParam(value = "myFileName") MultipartFile imgFile, HttpServletRequest request) {
+    public Map<String, String> upload(@RequestParam(value = "myFileName") MultipartFile imgFile, String  s) {
         Map<String, String> map = new HashMap<String, String>();
 //        String separator = System.getProperty("file.separator");
 //
@@ -138,7 +136,7 @@ public class PayautoController {
      */
     @PostMapping("/editor")
     @ResponseBody
-    public Editor uploadImageHtml(MultipartFile multiple, HttpSession session, HttpServletRequest request) throws IOException {
+    public Editor uploadImageHtml(MultipartFile multiple) throws IOException {
         if (multiple != null) {
             String [] str = upload(multiple);
             return Editor.ResultUtil.success(str);

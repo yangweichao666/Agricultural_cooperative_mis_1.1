@@ -21,7 +21,7 @@ import java.util.Properties;
  * User: Eric
  * ApplicationContextAware 如果想获取spring容器，就可以实现这个接口
  */
-public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements ApplicationContextAware {
+public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements ApplicationContextAware  {
 
     private AbstractApplicationContext applicationContext;
 
@@ -88,12 +88,19 @@ public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements
     /**
      * 使用zookeeper客户端连接zookeeper且读取数据库的配置信息
      * /config
+     * 有3个参数：retryCount 重试次数 ；
+     * elapsedTimeMs 从第一次重试开始已经花费的时间 sleeper 用于sleep的时间，首先我们来看一下重试策略ExponentialBackoffRetry，
+     * 这个类需要指定3个参数：baseSleepTimeMs 初始的sleep时间，maxRetries 最大重试次数；maxSleepMs 最大睡眠时间.下面是一个创建连接的DEMO：
+     * ————————————————
+     * 版权声明：本文为CSDN博主「北京鹏」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+     * 原文链接：https://blog.csdn.net/qq522935502/article/details/46502833
      *
      * @param props
      */
     private void loadFormZk(Properties props) {
+
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3, 3000);
-        CuratorFramework client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 3000, 3000, retryPolicy);
+        CuratorFramework client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 5000, 3000, retryPolicy);
         // 启动客户端
         client.start();
 
@@ -108,6 +115,10 @@ public class SettingCenterUtils extends PropertyPlaceholderConfigurer implements
             props.setProperty("jdbc.url", url);
             props.setProperty("jdbc.username", user);
             props.setProperty("jdbc.password", password);
+//            props.setProperty("jdbc.driver", "com.mysql.cj.jdbc.Driver");
+//            props.setProperty("jdbc.url", "jdbc:mysql://localhost:3306/agricmis?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8");
+//            props.setProperty("jdbc.username", "root");
+//            props.setProperty("jdbc.password", "asd123456");
             client.close();
         } catch (Exception e) {
             e.printStackTrace();

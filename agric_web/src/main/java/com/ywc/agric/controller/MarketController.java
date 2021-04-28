@@ -1,6 +1,5 @@
 package com.ywc.agric.controller;
 
-import com.ywc.agric.constant.MessageConstant;
 import com.ywc.agric.entity.PageResult;
 import com.ywc.agric.entity.QueryPageBean;
 import com.ywc.agric.entity.Result;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Id;
 import java.util.HashMap;
 
 /**
