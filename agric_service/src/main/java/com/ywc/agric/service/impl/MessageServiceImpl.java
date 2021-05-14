@@ -25,6 +25,8 @@ public class MessageServiceImpl implements MessageService {
     MessageDao messageDao;
     @Override
     public void add(Integer market_id, Message message) {
+        //添加消息
+        messageDao.addMe(message);
 
         Integer message_id = message.getId();
         //添加消息与市场关联表内容

@@ -72,7 +72,7 @@ public class SpringSecurityUserService implements UserDetailsService {
                     }
                 }
             }
-            //返回登录用户信息给security，会保存到session中
+            //返回登录用户信息给security，会保存到session中（只需查询数据库中用户的名称，密码，权限，返给security框架即可 ）
             return new org.springframework.security.core.userdetails.User(username, password, authorities);
 
         }

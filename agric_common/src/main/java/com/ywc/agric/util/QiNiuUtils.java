@@ -27,7 +27,7 @@ public class QiNiuUtils {
     //空间名
     private static final String BUCKET = "hm98";
     //域名
-    public static final String DOMAIN= "http://qqrvt2uym.hb-bkt.clouddn.com/";
+    public static final String DOMAIN= "http://qiniuyunsave.agricmis.top/";
 
     public static void main(String[] args) {//"C:\Users\YWC\Desktop\apic18171.jpg"
         uploadFile("C:\\Users\\YWC\\Desktop\\apic18171.jpg","dd2.jpg");

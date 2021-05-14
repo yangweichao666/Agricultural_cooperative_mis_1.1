@@ -18,10 +18,12 @@ import java.util.HashMap;
 /**
  * @Author YWC
  * @Date 2021/4/9 18:45
+ *
  */
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     @Reference
     UserService userService;
     @PostMapping("/findUser")
