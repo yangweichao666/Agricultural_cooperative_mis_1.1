@@ -19,8 +19,8 @@ public class CreateJDBCPath {
         // 启动
         client.start();
 // 操作
-    //删除节点
-    client.delete().deletingChildrenIfNeeded().forPath("/agricmisConfig");
+    //如果节点以存在 需要先删除节点 不存在则需要注释调
+//    client.delete().deletingChildrenIfNeeded().forPath("/agricmisConfig");
     //添加节点
     client.create().creatingParentsIfNeeded().forPath("/agricmisConfig/jdbc.driver","com.mysql.cj.jdbc.Driver".getBytes());
     client.create().creatingParentsIfNeeded().forPath("/agricmisConfig/jdbc.url","jdbc:mysql://localhost:3306/agricmis?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=UTF-8".getBytes());
